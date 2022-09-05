@@ -1,0 +1,22 @@
+{
+  "name": "webdev1_project",
+  "version": "1.0.0",
+  "description": "The system provides a different set of functionality for each user role. User roles in the system:",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.2",
+    "jquery": "^3.6.1",
+    "lodash": "^4.17.21",
+    "mongoose": "^6.5.4",
+    "nodemon": "^2.0.19"
+  },
+  "devDependencies": {
+    "webpack": "^5.74.0"
+  }
+}
