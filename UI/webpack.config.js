@@ -109,6 +109,8 @@ const config = {
         }),
         new HtmlWebpackPlugin({
             title: '',
+            template: 'index.template.ejs',
+            inject: 'body',
             chunks: ['app', 'vendor'],
         })
     ],
