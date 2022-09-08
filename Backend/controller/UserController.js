@@ -1,8 +1,34 @@
+const {models} = require("mongoose");
 
 console.log("controller pages loaded")
 
-module.exports = function addUser (req, res){
+function addUser (req, res){
     console.log("hi")
     res.writeHead(200);
     res.end("Hi")
+}
+
+function deleteUser (req, res){
+    console.log("hi")
+    res.writeHead(200);
+    res.end("Hi")
+}
+
+function findUser (req, res){
+    console.log("hi")
+    res.writeHead(200);
+    res.end("Hi")
+}
+
+function updateUser (req, res){
+    console.log("hi")
+    res.writeHead(200);
+    res.end("Hi")
+}
+
+module.exports = {
+    add:addUser(),
+    update:updateUser(),
+    find:findUser(),
+    delete:deleteUser(),
 }
