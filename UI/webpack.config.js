@@ -1,43 +1,50 @@
 // Define this constant for easier usage
 const isProd = process.env.NODE_ENV === 'production'
 
-const { resolve } = require('path')
+const  path  = require('path')
 
 const webpack = require('webpack')
 
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-const cssLoader = {
-    loader: 'css-loader',
-    options: {
-        minimize: true,
-    },
-}
-
-const srcDir = resolve(__dirname, 'src')
+const srcDir = path.resolve(__dirname, 'src')
 console.log("dirr "+__dirname)
 console.log("srcDir "+srcDir)
-console.log("app "+resolve(srcDir, "main.js"))
+console.log("app "+path.resolve(srcDir, "main.js"))
 const vendor = [
     'jquery',
-    'bootstrap',
-    'moment',
+    'lodash'
 ]
 
 const config = {
     name: 'base',
-
+    mode:'development',
+    stats: {
+        warnings: false
+    },
     // Include source maps in development files
     devtool: "eval-source-map",
-
+    devServer: {
+        static: {
+            directory: path.resolve(__dirname, 'dist'),
+        },
+        compress: true,
+        port: 9000,
+        client: {
+            overlay: {
+                errors: true,
+                warnings: false,
+            },
+        },
+    },
     entry: {
-        //vendor,
-        app: resolve(srcDir, "main.js"),
+        vendor,
+        app: path.resolve(srcDir, "main.js"),
     },
 
     output: {
-        path: resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'dist'),
         publicPath: '/',
         filename: '[name].[hash].js',
         clean: true
@@ -46,7 +53,7 @@ const config = {
     resolve: {
         extensions: ['*', '.js'],
         modules: [
-            resolve(__dirname, '..', 'node_modules'),
+            path.resolve(__dirname, 'node_modules'),
         ],
     },
 
@@ -61,18 +68,17 @@ const config = {
                 }
             },
             {
-                test: /\.css$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: cssLoader,
-                }),
-            },
-            {
-                test: /\.scss|\.sass$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: [cssLoader, 'sass-loader'],
-                }),
+                test:  /\.scss$/,
+                use: [
+                    MiniCssExtractPlugin.loader, {
+                    loader: 'css-loader'
+                },
+                    {
+                        loader: 'sass-loader',
+                        options: {
+                            sourceMap: true,
+                            // options...
+                        }}],
             },
             {
                 test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
@@ -105,17 +111,15 @@ const config = {
         new webpack.ProvidePlugin({
             $: 'jquery',
             jQuery: 'jquery',
-            Popper: 'popper.js',
         }),
         new HtmlWebpackPlugin({
             title: '',
             template: 'index.template.ejs',
             inject: 'body',
             chunks: ['app', 'vendor'],
-        })
+        }),
+        new MiniCssExtractPlugin(),
     ],
-
-    profile: isProd,
 
     performance: {
         hints: 'warning',
