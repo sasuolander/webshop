@@ -3,9 +3,7 @@ const isProd = process.env.NODE_ENV === 'production'
 
 const { resolve } = require('path')
 
-const {
-    ProvidePlugin,
-} = require('webpack')
+const webpack = require('webpack')
 
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
@@ -17,8 +15,10 @@ const cssLoader = {
     },
 }
 
-const srcDir = resolve(__dirname, '..', 'src')
-
+const srcDir = resolve(__dirname, 'src')
+console.log("dirr "+__dirname)
+console.log("srcDir "+srcDir)
+console.log("app "+resolve(srcDir, "main.js"))
 const vendor = [
     'jquery',
     'bootstrap',
@@ -27,24 +27,20 @@ const vendor = [
 
 const config = {
     name: 'base',
-    dependencies: ['templating'],
 
     // Include source maps in development files
-    devtool: isProd ? '#source-map' : '#cheap-module-eval-source-map',
-
-    node: {
-        fs: 'empty'
-    },
+    devtool: "eval-source-map",
 
     entry: {
-        vendor,
-        app: resolve(srcDir, 'index.js'),
+        //vendor,
+        app: resolve(srcDir, "main.js"),
     },
 
     output: {
-        path: resolve(__dirname, '..', 'dist'),
+        path: resolve(__dirname, 'dist'),
         publicPath: '/',
         filename: '[name].[hash].js',
+        clean: true
     },
 
     resolve: {
@@ -61,7 +57,7 @@ const config = {
                 loader: 'babel-loader',
                 exclude: /node_modules/,
                 options: {
-                    presets: ['env'],
+                    presets: ['@babel/preset-env']
                 }
             },
             {
@@ -81,7 +77,7 @@ const config = {
             {
                 test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
                 loader: 'url-loader',
-                query: {
+                options: {
                     limit: 10000,
                     name: 'images/[name].[hash:7].[ext]'
                 }
@@ -102,24 +98,19 @@ const config = {
                 test: /\.md$/,
                 loader: 'raw-loader',
             }
-        ],
+        ]
     },
 
     plugins: [
-        new ProvidePlugin({
+        new webpack.ProvidePlugin({
             $: 'jquery',
             jQuery: 'jquery',
             Popper: 'popper.js',
         }),
         new HtmlWebpackPlugin({
-            title: 'SPA tutorial',
-            template: resolve(__dirname, '..', 'src', 'html', 'index.ejs'),
-            chunks: ['app', 'vendor', 'templating'],
-        }),
-        new ExtractTextPlugin({
-            filename: 'style.[hash].css',
-            disable: !isProd,
-        }),
+            title: '',
+            chunks: ['app', 'vendor'],
+        })
     ],
 
     profile: isProd,
@@ -128,6 +119,6 @@ const config = {
         hints: 'warning',
         maxEntrypointSize: 400000,
         maxAssetSize: 300000,
-    },
+    }
 }
 module.exports = config

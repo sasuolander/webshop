@@ -2,22 +2,27 @@
   "name": "webdev1_project",
   "version": "1.0.0",
   "description": "The system provides a different set of functionality for each user role. User roles in the system:",
-  "main": "main.js",
+  "main": "src/main.js",
   "scripts": {
-    "start": "node main.js",
+    "start": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "jquery": "^3.6.1",
-    "lodash": "^4.17.21",
-    "webpack-bundle-analyzer": "^4.6.1"
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
+    "@babel/core": "^7.19.0",
+    "@babel/preset-env": "^7.19.0",
+    "babel-loader": "^8.2.5",
     "dotenv": "^16.0.2",
     "extract-text-webpack-plugin": "^3.0.2",
     "html-webpack-plugin": "^5.5.0",
-    "webpack": "^5.74.0"
+    "webpack": "^5.74.0",
+    "webpack-bundle-analyzer": "^4.6.1",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.11.0"
   }
 }
