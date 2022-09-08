@@ -4,7 +4,7 @@
   "description": "The system provides a different set of functionality for each user role. User roles in the system:",
   "main": "src/main.js",
   "scripts": {
-    "start": "webpack",
+    "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
