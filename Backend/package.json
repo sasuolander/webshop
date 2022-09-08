@@ -4,17 +4,18 @@
   "description": "The system provides a different set of functionality for each user role. User roles in the system:",
   "main": "main.js",
   "scripts": {
-    "start": "node main.js",
+    "start": "nodemon run",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "lodash": "^4.17.21",
-    "mongoose": "^6.5.4",
-    "nodemon": "^2.0.19"
+    "mongoose": "^6.5.5",
+    "mongoose-sequence": "^5.3.1"
   },
   "devDependencies": {
-    "dotenv": "^16.0.2"
+    "dotenv": "^16.0.2",
+    "nodemon": "^2.0.19"
   }
 }
