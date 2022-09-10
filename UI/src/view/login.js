@@ -1,6 +1,9 @@
-(
-    function(){
-        const bind = ""
-        return {element:"", data:{}}
+import View from "./view";
+
+export default class LoginView extends View {
+    constructor() {
+        super();
     }
-)()
+
+    divName = "login"
+}
