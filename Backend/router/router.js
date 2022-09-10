@@ -1,6 +1,6 @@
 module.exports = class Router  {
     routes = []
-    //TODO add ability to select http method
+    //TODO add ability to select http method, GET POST UPDATE  DELETE
     add = function (path,callback) {
         this.routes.push({url:"/"+path,callback:callback})
     }
