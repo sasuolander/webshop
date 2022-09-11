@@ -13,6 +13,19 @@ userSchema.statics.deleteById = function(_id) {
     return this.deleteOne({ id: _id })
 };
 
+const productSchema = new mongoose.Schema({
+    id: { type: Number, index: { unique: true, sparse: true }},
+    name: String,
+    price: Number,
+})
+
+productSchema.plugin(AutoIncrement,{id:'product_counter',inc_field: 'id'})
+productSchema.statics.deleteById = function(_id) {
+    return this.deleteOne({ id: _id })
+};
+
+
 module.exports = {
+    ProductModel:mongoose.model('ProductModel', productSchema),
     UserModel: mongoose.model('UserModel', userSchema),
 };

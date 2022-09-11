@@ -1,4 +1,5 @@
-docker compose up
+docker compose -p webproject1 -f system.yaml up
+
 
 The system provides a different set of functionality for each user role. User roles in the system: 
 

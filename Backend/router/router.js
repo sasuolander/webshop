@@ -1,3 +1,4 @@
+
 module.exports = class Router  {
    static routes = []
 
@@ -15,14 +16,27 @@ module.exports = class Router  {
         this.routes.push({url:"/"+path,callback:callback,method:"DELETE"})
     }
 
-
-    requestValidator (req, res,callback){
+    async requestValidator(req, res, callback) {
         if (typeof req !== 'undefined' || typeof res !== 'undefined') {
-            callback(req,res)
+            const buffers = [];
+            for await (const chunk of req) {
+                buffers.push(chunk);
+            }
+            const data = Buffer.concat(buffers).toString();
+            if (data.length !== 0) {
+                try {
+                    req.body = JSON.parse(data);
+                    console.log("body parsed", JSON.parse(data));
+                } catch (e) {
+                    console.error("invalid json")
+                }
+            }
+            callback(req, res)
         }
     }
 
     main = function (req, res){
+        const authenticate = require("./../middleware/authentication")
         const me = this
        // check cookie
 
@@ -31,25 +45,31 @@ module.exports = class Router  {
             throw Error("No Authentication")
         }*/
 
+
+        if (req.path === '/login') {
+            authenticate(req, res)
+        }
+
         res.setHeader("Content-Type", "text/json");
 
         if (Router.routes.length === 0)
             throw Error("Empty routes table")
-        Router.routes.forEach(function (route) {
-            console.log(req.url,req.method)
-            console.log(route)
-            const correctURLAndMethod = route.url === req.url && route.method === req.method
 
-            if (correctURLAndMethod) {
-                if (typeof route.callback === "function"){
-                    me.requestValidator(req, res, route.callback)
-                }
-            } else if (req.url === "/favicon.ico") {
-              // add favicon ico if there is time for it
-            } else {
-                console.log("Did not find endpoint")
-                res.end("Api error")
-            }
+        const routeFound = Router.routes.find(function (route) {
+            return route.url === req.url && route.method === req.method
         })
+
+        console.log(req.url,req.method)
+        console.log(routeFound)
+
+        if(typeof routeFound !== "undefined") {
+            if (typeof routeFound.callback === "function"){
+                me.requestValidator(req, res, routeFound.callback)
+            }
+        } else if (req.url === "/favicon.ico") {
+            // add favicon ico if there is time for it
+        } else {
+            console.log("Did not find endpoint: " +req.url)
+        }
     }
 };

@@ -4,8 +4,6 @@ exports.modules = class Role {
         if (roleName === "admin"|| roleName === "user" ||roleName === "nonLogged"){
             this.role = roleName;
         } else throw Error("Not valid user role")
-
-
     }
     isAdmin = function (){
         return this.role === "admin";
