@@ -2,7 +2,6 @@
 
 // setup token or cookie when authentication succeed
 
-
 module.exports.authenticate = function (req,res){
 
 const authorizationHeader =req.getHeader("Authorization")

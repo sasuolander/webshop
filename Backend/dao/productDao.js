@@ -1,5 +1,5 @@
 const {ProductModel} = require("../schema/schema");
-const Product = require("../model/Model");
+const Product = require("../model/product");
 
 /**
  * @param param
@@ -15,6 +15,13 @@ exports.save = function (paramInput) {
         });
     }
 }
+
+
+exports.findAll = function () {
+    return ProductModel.find({}).then(r => {
+        return r
+    });
+}
 /**
  * @param param
  */
@@ -28,11 +35,22 @@ exports.update = async function (id, paramInput) {
         }
     }, {
         upsert: true
-    }, function (err, newBook) {
+    }, function (err) {
         if (err) {
             console.log('error updating');
         }
     }).clone();
+}
+
+exports.findByName = function (name) {
+    return UserModel.find({name: name}).then(r => {
+        return r
+    });
+}
+exports.removeByName = function (name) {
+    return UserModel.deleteOne({name: name}).then(r => {
+        return r
+    });
 }
 
 exports.findAll = function () {

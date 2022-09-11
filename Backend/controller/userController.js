@@ -1,4 +1,3 @@
-const {models} = require("mongoose");
 const Router = require("../router/router");
 const UserService = require("../service/userService");
 
@@ -6,35 +5,32 @@ module.exports = function register() {
     console.log("controller pages loaded")
 }
 
-Router.get("user", function getUser(req, res) {
+Router.get("user", async function getUser(req, res) {
     const body = req.body;
-
-    console.log("data", body)
+    const response = await UserService.getUserByName(body)
     res.writeHead(200);
-    res.end("Hi");
+    res.end(JSON.stringify(response));
 })
 
+Router.post("user", async function addUser(req, res) {
+    const body = req.body;
+    const saved = await UserService.createUser(body)
+    res.writeHead(200);
+    res.end(JSON.stringify(saved));
+})
 
-Router.post("user",
-    async function addUser(req, res) {
-        const body = req.body;
-        const saved = await UserService.createUser(body)
-        res.writeHead(200);
-        res.end(JSON.stringify(saved));
-    })
+Router.delete("user", async function deleteUser(req, res) {
+    const body = req.body;
+    const response = await UserService.deleteUser(body)
+    res.writeHead(200);
+    res.end(JSON.stringify(response));
+})
 
-Router.delete("user",
-    function deleteUser(req, res) {
-        console.log("hi")
-        res.writeHead(200);
-        res.end("Hi");
-    })
-
-Router.post("user",
-    function update(req, res) {
-        console.log("hi")
-        res.writeHead(200);
-        res.end("Hi");
-    })
+Router.post("user/update", async function update(req, res) {
+    const body = req.body;
+    const response = await UserService.updateUser(body.id, body)
+    res.writeHead(200);
+    res.end(JSON.stringify(response));
+})
 
 
