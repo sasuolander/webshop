@@ -1,6 +1,6 @@
 import View from "./view";
 
-export default class MainMenuBar extends View {
+export default class MainMenuBarView extends View {
     constructor() {
         super();
     }
@@ -11,7 +11,10 @@ export default class MainMenuBar extends View {
        // https://bulma.io/documentation/components/navbar/
         this.viewRoot.append("<nav class='navbar' role='navigation' aria-label='main navigation'>" +
             "  <div class='navbar-brand'>" +
-            "    <!-- navbar items, navbar burger... -->\n" +
+            "    <a class=\"navbar-item\" onclick=''>Shop</a>" +
+            "    <a class=\"navbar-item\" onclick=''>User</a>" +
+            "    <a class=\"navbar-item\" onclick=''>Login</a>" +
+            "    <a class=\"navbar-item\" onclick=''>Admin</a>" +
             "  </div>" +
             "</nav>");
     }

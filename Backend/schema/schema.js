@@ -4,7 +4,6 @@ const AutoIncrement = require('mongoose-sequence')(mongoose);
 const userSchema = new mongoose.Schema({
     id: { type: Number,  index: { unique: true, sparse: true }},
     username: String,
-    email: String,
     password: String,
 })
 userSchema.plugin(AutoIncrement,{id:'user_counter',inc_field: 'id'})

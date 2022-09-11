@@ -1,11 +1,11 @@
 import './styles.scss';
 import $ from 'jquery';
-import AddUserClass from './view/AddUser'
+import AddUserClass from './view/AddUserView'
 import GlobalStateClass from './globalState'
-import LoginViewClass from "./view/login";
-import AdminPanelClass from "./view/adminPanel";
+import LoginViewClass from "./view/loginView";
+import AdminPanelClass from "./view/adminPanelView";
 import ShopViewClass from "./view/shopView";
-import MainMenuBarClass from "./view/mainmenubar";
+import MainMenuBarClass from "./view/mainMenuBarView";
 
 const state = new GlobalStateClass()
 
@@ -25,8 +25,8 @@ $("#container") .append(AddUser.renderRoot())
     .append(LoginView.renderRoot())
     .append(ShopView.renderRoot())
 
-AddUser.init().insertView()
-AdminPanel.init().insertView()
-LoginView.init().insertView()
-ShopView.init().insertView()
-MainMenu.init().insertView()
+AddUser.init()
+AdminPanel.init()
+LoginView.init()
+ShopView.init()
+MainMenu.init()

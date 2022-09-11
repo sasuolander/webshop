@@ -1,6 +1,6 @@
 import View from "./view";
 
-export default class AdminPanel extends View {
+export default class AdminPanelView extends View {
     constructor() {
         super();
     }

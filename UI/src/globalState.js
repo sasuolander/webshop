@@ -2,5 +2,18 @@
 // event buss ?
 
 export default class GlobalState {
- constructor(ars) {}
+
+    carts = []
+    user = []
+    login = false
+
+    constructor(ars) {}
+
+    addToCarts(){
+
+    }
+
+    removeFromCarts(productID) {}
+
+
 }
