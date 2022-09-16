@@ -3,7 +3,7 @@ import View from "./view";
 export default class AddProductView extends View {
 
     divName = "addProductView"
-
+    visibleInitially = false
     insertView() {
         this.viewRoot.append(
             "<form class='addProductView'>" +

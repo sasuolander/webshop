@@ -5,11 +5,12 @@ export default class LoginView extends View {
         super();
     }
 
+    visibleInitially = false
     divName = "loginView"
 
     insertView() {
         this.viewRoot.append(
-            "<form class='loginView'>" +
+            "<form class='loginView' >" +
             "  <label for='username'>username:</label><br>" +
             "  <input type='text' id='username' name='username'><br>" +
             "  <label for='password'>password</label><br>" +

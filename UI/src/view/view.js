@@ -1,22 +1,30 @@
 import $ from "jquery";
 
 export default class View {
+    globalState
     state = {}
     divName = ""
     viewRoot
+    visibleInitially = true
     initBoolean = false
 
     constructor() {}
 
-    init(){
+    init(state){
         this.viewRoot =  $(`#${this.divName}`)
+        this.globalState = state
         this.initBoolean = true
         this.prepView()
         return this
     }
 
     renderRoot(){
-        return `<div id=${this.divName}><div>`
+        if (this.visibleInitially){
+            return `<div id=${this.divName}><div>`
+        }else {
+            return `<div id=${this.divName} style=\"display: none;\"><div>`
+        }
+
     }
 
     prepView(){

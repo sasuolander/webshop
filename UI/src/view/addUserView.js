@@ -2,7 +2,7 @@ import View from "./view";
 
 export default class AddUserView extends View {
     divName = "addUser"
-
+    visibleInitially = false
     constructor() {
         super();
     }
@@ -16,7 +16,7 @@ export default class AddUserView extends View {
 
     insertView() {
         this.viewRoot.append(
-            "<form class='addUserForm'>" +
+            "<form class='addUserForm' >" +
             "  <label for='username'>username:</label><br>" +
             "  <input type='text' id='username' name='username'><br>" +
             "  <label for='password'>password</label><br>" +
