@@ -2,23 +2,44 @@
 
 // setup token or cookie when authentication succeed
 
-module.exports.authenticate = function (req,res){
+const UserService = require("../service/userService");
 
-const authorizationHeader =req.getHeader("Authorization")
+module.exports.authenticate = async function (req, res) {
+
+    const authorizationHeader = req.getHeader("Authorization")
 
     if (!authorizationHeader || authorizationHeader.indexOf('Basic ') === -1) {
-        return res.status(401).json({ message: 'Missing Authorization Header' });
+        return res.status(401).json({message: 'Missing Authorization Header'});
     }
 
     // verify auth credentials
-    const base64Credentials =  authorizationHeader.split(' ')[1];
+    const base64Credentials = authorizationHeader.split(' ')[1];
     const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
     const [username, password] = credentials.split(':');
-    //const user = await userService.authenticate({ username, password });
+    const user = await UserService.authenticate({username, password});
     if (!user) {
-        return res.end(JSON.stringify({ message: 'Invalid Authentication Credentials' }));
+        return res.end(JSON.stringify({message: 'Invalid Authentication Credentials'}));
     }
 
     // attach user to request object
     req.user = user
+}
+
+module.exports.validateLogin = async function (req, res) {
+
+    const authorizationHeader = req.getHeader("Authorization")
+
+    if (!authorizationHeader || authorizationHeader.indexOf('Basic ') === -1) {
+        return res.status(401).json({message: 'Missing Authorization Header'});
+    }
+
+    // verify auth credentials
+    const base64Credentials = authorizationHeader.split(' ')[1];
+    const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
+    const [username, password] = credentials.split(':');
+    const user = await UserService.authenticate({username, password});
+    if (!user) {
+        return res.end(JSON.stringify({message: 'Invalid Authentication Credentials'}));
+    }
+    return {res:res.setHeader("Set-Cookie","login:true"),status: true}
 }

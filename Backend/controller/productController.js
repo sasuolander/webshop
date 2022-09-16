@@ -2,7 +2,7 @@ const Router = require("../router/router");
 const ProductService = require("../service/productService");
 
 module.exports = function register() {
-    console.log("controller pages loaded")
+    console.log("product controller pages loaded")
 }
 
 Router.get("product", async function get(req, res) {

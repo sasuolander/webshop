@@ -46,9 +46,9 @@ module.exports = class Router  {
         }*/
 
 
-        if (req.path === '/login') {
-            authenticate(req, res)
-        }
+
+        authenticate(req, res)
+
 
         res.setHeader("Content-Type", "text/json");
 

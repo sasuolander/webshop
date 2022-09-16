@@ -2,7 +2,7 @@ const Router = require("../router/router");
 const UserService = require("../service/userService");
 
 module.exports = function register() {
-    console.log("controller pages loaded")
+    console.log("user controller pages loaded")
 }
 
 Router.get("user", async function getUser(req, res) {

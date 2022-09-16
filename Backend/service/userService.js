@@ -25,6 +25,15 @@ exports.getUserByName = function (username) {
     });
 }
 
+exports.authenticate = async function (username, password) {
+    const user = await dao.findByUsername(username).then(r => {
+        return r
+    }).catch(function (err) {
+        console.log(err)
+    });
+    return user.password === password;
+}
+
 exports.updateUser = function (username, body) {
     return dao.update(username, body).then(r => {
         return r
