@@ -7,11 +7,8 @@ export default class Router  {
     }
 
     main = function (req, res){
-        const authenticate = require("./../middleware/authentication")
         const me = this
         // check cookie
-
-        authenticate(req, res)
 
         res.setHeader("Content-Type", "text/json");
 

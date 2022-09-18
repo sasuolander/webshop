@@ -14,9 +14,24 @@ const router = new Router();
 userController()
 loginController()
 productController()
-const server = http.createServer((req, res) => {
-    console.log("server")
-    router.main(req,res)
+
+
+
+
+
+const server = http.createServer(async (req, res) => {
+
+    const {headersCors} = require("./headersCors");
+    //console.log("server")
+    if (req.method === "OPTIONS") {
+        //console.log("OPTION")
+        res.writeHead(204, headersCors);
+        res.end();
+        return res;
+    }else {
+       await router.main(req, res)
+    }
+
 });
 
 try {

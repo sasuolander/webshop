@@ -1,4 +1,6 @@
 import View from "./view";
+import {loginBasic} from "../backend/backend";
+
 
 export default class LoginView extends View {
     constructor() {
@@ -8,6 +10,16 @@ export default class LoginView extends View {
     visibleInitially = false
     divName = "loginView"
 
+    updateView() {
+        $("#button-login").click(
+            function (event){
+                const parameter =$("#loginView :input").serializeArray()
+                const username = parameter[0].value
+                const password = parameter[1].value
+                loginBasic(username,password)
+            })
+    }
+
     insertView() {
         this.viewRoot.append(
             "<form class='loginView' >" +
@@ -16,12 +28,9 @@ export default class LoginView extends View {
             "  <label for='password'>password</label><br>" +
             "  <input type='text' id='password' name='password'>" +
             "  <div className='field is-grouped'>" +
-            "    <div className='control'>" +
-            "        <button type='button' className='button is-link'>Login</button>" +
+            "    <div>" +
+            "        <button id='button-login' type='button' >Login</button>" +
             "   </div>" +
-            "  <div className='control'>" +
-            "        <button type='button' className='button is-link is-light'>Cancel</button>" +
-            "    </div>" +
             "  </div>" +
             "</form>");
     }
