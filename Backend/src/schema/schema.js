@@ -5,6 +5,7 @@ const userSchema = new mongoose.Schema({
     id: { type: Number,  index: { unique: true, sparse: true }},
     username: String,
     password: String,
+    role: Object
 })
 userSchema.plugin(AutoIncrement,{id:'user_counter',inc_field: 'id'})
 

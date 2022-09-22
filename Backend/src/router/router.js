@@ -47,7 +47,7 @@ module.exports = class Router  {
     }
 
     main = async function (req, res) {
-        const {authenticate} = require("./../middleware/authentication")
+        const {authenticate} = require("../middleware/authentication")
         const me = this
         // check cookie
        //const item =  me.requestValidator(req, res)

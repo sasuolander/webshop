@@ -15,10 +15,6 @@ userController()
 loginController()
 productController()
 
-
-
-
-
 const server = http.createServer(async (req, res) => {
 
     const {headersCors} = require("./headersCors");

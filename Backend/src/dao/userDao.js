@@ -1,13 +1,13 @@
 const {UserModel} = require("../schema/schema");
-const User = require("./../model/user");
+const User = require("../model/user");
 /**
  * @param param
  */
 exports.save = function (paramInput) {
     console.log("param",paramInput)
-    const param = paramInput || new User({id: 0, username: "", password: ""})
+    const param = paramInput || new User({id: 0, username: "", password: "",role:{}})
     if (param !== undefined) {
-        return new UserModel({username: param.username,password:param.password}).save().then(r => {
+        return new UserModel({username: param.username,password:param.password,role:param.role.role}).save().then(r => {
             return r
         });
     }
@@ -17,7 +17,7 @@ exports.save = function (paramInput) {
  */
 
 exports.update = function (username, paramInput) {
-    const param = paramInput || new User({id: 0, username: "", password: ""})
+    const param = paramInput || new User({id: 0, username: "", password: "",role:{}})
     return UserModel.findOneAndUpdate({username: username}, {
         $set: {
             password: param.password,
@@ -42,6 +42,12 @@ exports.findAll = function () {
  */
 exports.find = function (id) {
     return UserModel.find({id: id}).then(r => {
+        return r
+    });
+}
+
+exports.findAll = function () {
+    return UserModel.find({}).then(r => {
         return r
     });
 }

@@ -22,17 +22,17 @@ export default class LoginView extends View {
 
     insertView() {
         this.viewRoot.append(
-            "<form class='loginView' >" +
+            "<div class='loginView' >" +
             "  <label for='username'>username:</label><br>" +
             "  <input type='text' id='username' name='username'><br>" +
             "  <label for='password'>password</label><br>" +
             "  <input type='text' id='password' name='password'>" +
-            "  <div className='field is-grouped'>" +
+            "  <div class='field is-grouped'>" +
             "    <div>" +
             "        <button id='button-login' type='button' >Login</button>" +
             "   </div>" +
             "  </div>" +
-            "</form>");
+            "</div>");
     }
 
 }

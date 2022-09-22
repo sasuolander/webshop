@@ -2,7 +2,7 @@ const Router = require("../router/router");
 const ProductService = require("../service/productService");
 const {headersCors} = require("../headersCors");
 
-module.exports = function register() {
+export function register() {
     console.log("product controller pages loaded")
 }
 

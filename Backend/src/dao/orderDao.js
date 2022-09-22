@@ -16,7 +16,6 @@ exports.save = function (paramInput) {
     }
 }
 
-
 exports.findAll = function () {
     return OrderModel.find({}).then(r => {
         return r

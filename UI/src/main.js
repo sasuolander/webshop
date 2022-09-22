@@ -11,7 +11,7 @@ import OrderManagementViewClass from "./view/orderManagementView";
 
 export const urlBase = "http://127.0.0.1:3000/";
 
-const state = new GlobalStateClass()
+export const state = new GlobalStateClass()
 
 const {AddUser,ProductManagementView,LoginView,ShopView,MainMenu,UserManagementView,OrderManagementView} = {
     AddUser:new AddUserClass(),

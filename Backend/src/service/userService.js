@@ -25,6 +25,11 @@ exports.getUserByName = function (username) {
     });
 }
 
+
+exports.getUsers = function () {
+    return dao.findAll();
+}
+
 exports.authenticate = async function (username, password) {
     if (username === "testuser" && process.env.DEV) {
         return true

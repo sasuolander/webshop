@@ -1,4 +1,5 @@
 import View from "./view";
+import {addUser} from "../backend/backend";
 
 export default class AddUserView extends View {
     divName = "addUser"
@@ -8,27 +9,43 @@ export default class AddUserView extends View {
     }
 
     updateView() {
-        $(".addUserForm").click(
+
+
+        $(".addUserForm .add-user-button").click(
             function addUserButton(event){
-                console.log("test")
+                console.log("add")
+                const parameter =$("#addUser :input").serializeArray()
+
+                const role = $("#addUser .role-select").val();
+                const username = parameter[0].value
+                const password = parameter[1].value
+                console.log(parameter,role)
+
+                addUser(username,password,role)
             })
     }
 
     insertView() {
         this.viewRoot.append(
-            "<form class='addUserForm' >" +
+            "<div class='addUserForm' >" +
             "  <label for='username'>username:</label><br>" +
             "  <input type='text' id='username' name='username'><br>" +
             "  <label for='password'>password</label><br>" +
-            "  <input type='text' id='password' name='password'>" +
-            "  <div className='field is-grouped'>" +
-            "    <div className='control'>" +
-            "        <button type='button' className='button is-link'>Add</button>" +
+            "  <input  type=\"password\" name='password' placeholder=\"Enter your Password\">" +
+            "<div class=\"role select\">\n" +
+            "  <select class=\"role-select\">\n" +
+            "    <option value='admin'>Admin</option>\n" +
+            "    <option value='userNormal'>Normal</option>\n" +
+            "  </select>\n" +
+            "</div>"+
+            "  <div class='field is-grouped'>" +
+            "    <div class='control'>" +
+            "        <button type='button' class='add-user-button button is-link'>Add</button>" +
             "   </div>" +
-            "  <div className='control'>" +
-            "        <button type='button' className='button is-link is-light'>Cancel</button>" +
+            "  <div class='control'>" +
+            "        <button type='button' class='cancel-button button is-link is-light'>Cancel</button>" +
             "    </div>" +
             "  </div>" +
-            "</form>");
+            "</div>");
     }
 }
