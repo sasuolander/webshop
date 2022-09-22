@@ -1,4 +1,5 @@
 import View from "./view";
+import $ from "jquery";
 
 export default class ShopView extends View {
     state;
@@ -10,14 +11,23 @@ export default class ShopView extends View {
     divName = "shopView"
     visibleInitially = false
 
+    async prepView() {
+        const  me = this
+        if (!me.initBoolean) {
+            throw Error("View is not initialised.")
+        } else {
+            me.insertView();
+            await me.insertInitialData()
+            await me.updateView();
+        }
+    }
+    insertInitialData(){
+
+    }
     updateView() {
         const classContex = this
 
-        const popup = function (additionalInfo){
-
-        }
-
-        const car = function (id, name, price, url, props) {
+        const car = function (id, name, price, url, props,additionalInfo) {
             return "<div class='tile is-paren shopView'><div class='car'>" +
                 "<div class='card-imag'>" +
                 "<figure class='image is-4by'>" +
@@ -39,38 +49,47 @@ export default class ShopView extends View {
                 "" +
                 `<div class='conten'>${props.imgText}</div>` +
                 "</div>" +
+                `<div class=\"modal additional-info-modal-${id}\">` +
+                "  <div class=\"modal-background\"></div>\n" +
+                "  <div class=\"modal-content\">\n" +
+               " <div class=\"message-header\">"+
+                `  ${additionalInfo}` +
+               " </div>"
+                +
+                "  </div>\n" +
+                `  <button class=\"modal-close is-large\" aria-label=\"close\" data-id = '${id}' ></button>` +
+                "</div>"+
                 " <footer class='card-foote'>" +
-                `<a href =${url} class ='card-footer-ite'>${props.imgText}</a>` +
-                `<a class ='card-footer-ite add-to-car'  data-id = '${id}'>Add to car, price: ${price}</a>` +
-                `<a class ='card-footer-ite add-to-car'  data-id = '${id}'>Additional info</a>` +
+                `<a class ='card-footer-ite add-to-car'  data-id = '${id}'>Add to car, price: ${price}</a>` +"<br>"+
+                `<a class ='card-footer-ite additional-info'  data-id = '${id}'>Additional info</a>` +"<br>"+
                 " </footer>" +
                 "</div></div>"
         }
 
         const products = [
             {
-                id: 1, name: "car1",
+                productId: 1, name: "car1",
                 price: 20,
                 additionalInfo: "this is red",
                 url: "/something",
                 props: {img: "", imgText: "", text: "car is new"}
             },
             {
-                id: 2, name: "car2",
+                productId: 2, name: "car2",
                 price: 20,
                 additionalInfo: "this is out of stock",
                 url: "/something",
                 props: {img: "", imgText: "", text: "car is new"}
             },
             {
-                id: 3, name: "car3",
+                productId: 3, name: "car3",
                 price: 20,
                 additionalInfo: "this is purple",
                 url: "/something",
                 props: {img: "", imgText: "", text: "car is new"}
             },
             {
-                id: 4, name: "car4",
+                productId: 4, name: "car4",
                 price: 20,
                 additionalInfo: "this is blue",
                 url: "/something",
@@ -79,18 +98,33 @@ export default class ShopView extends View {
 
         ]
         products.forEach(function (item) {
-            $(".is-ancesto").append(car(item.id, item.name, item.price, item.url, item.props))
+            $(".is-ancesto").append(car(item.productId, item.name, item.price, item.url, item.props,item.additionalInfo))
         })
-
+        products.forEach(item =>{
+            item.userId = 10
+        })
         $(".tile .is-paren .add-to-car").on("click", function (event) {
                 const id = event.currentTarget.dataset.id
                 const product = products.find(function (item) {
-                    return item.id === Number(id)
+                    return item.productId === Number(id)
                 })
                 classContex.globalState.carts.addToCarts(product)
             }
         )
-
+        $(".tile .is-paren .additional-info").on("click", function (event) {
+                const id = event.currentTarget.dataset.id
+            console.log(id)
+            console.log("modal",`additional-info-modal-${id}`)
+            $(`.additional-info-modal-${id}`).addClass("is-active")
+            }
+        )
+        $(".tile .is-paren .modal-close").on("click", function (event) {
+                const id = event.currentTarget.dataset.id
+                console.log(id)
+                console.log("modal",`additional-info-modal-${id}`)
+                $(`.additional-info-modal-${id}`).removeClass("is-active")
+            }
+        )
     }
 
     insertView() {

@@ -18,6 +18,7 @@ const productSchema = new mongoose.Schema({
     id: { type: Number, index: { unique: true, sparse: true }},
     name: String,
     price: Number,
+    additionalInfo : String,
 })
 
 productSchema.plugin(AutoIncrement,{id:'product_counter',inc_field: 'id'})
@@ -28,7 +29,8 @@ productSchema.statics.deleteById = function(_id) {
 const orderSchema = new mongoose.Schema({
     id: { type: Number, index: { unique: true, sparse: true }},
     name: String,
-    price: Number,
+    productId :Number,
+    userId :Number
 })
 
 orderSchema.plugin(AutoIncrement,{id:'order_counter',inc_field: 'id'})

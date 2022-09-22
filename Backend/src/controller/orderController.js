@@ -1,34 +1,43 @@
+const OrderClass = require("../model/order");
+
 const Router = require("../router/router");
-const ProductService = require("../service/productService");
+const OrderService = require("../service/orderService");
 const {headersCors} = require("../headersCors");
 
-export function register() {
-    console.log("product controller pages loaded")
+module.exports = function register() {
+    console.log("order controller pages loaded")
 }
 
-Router.get("order", async function get(req, res) {
-    const response = await ProductService.getProducts()
+Router.get("orders", async function get(req, res) {
+    const response = await OrderService.getOrders()
     res.writeHead(200,headersCors)
-    res.end(JSON.stringify(response));
+    res.end(JSON.stringify(response.map(r=>{return new OrderClass(r.id,r.userId,r.productId)})));
+})
+
+Router.get("ordersByUserId", async function get(req, res) {
+    const body = req.body;
+    const r = await OrderService.getOrderByUserId(body)
+    res.writeHead(200,headersCors)
+    res.end(JSON.stringify( new OrderClass(r.id,r.userId,r.productId)));
 })
 
 Router.post("order", async function add(req, res) {
     const body = req.body;
-    const saved = await ProductService.createProduct(body)
+    const r = await OrderService.createOrder(body)
     res.writeHead(200,headersCors)
-    res.end(JSON.stringify(saved));
+    res.end(JSON.stringify( new OrderClass(r.id,r.userId,r.productId)));
 })
 // id in payload
 Router.delete("order", async function deleteProduct(req, res) {
     const body = req.body;
-    const response = await ProductService.deleteProduct(body)
+    const r = await OrderService.deleteOrder(body)
     res.writeHead(200,headersCors)
-    res.end(JSON.stringify(response));
+    res.end(JSON.stringify( new OrderClass(r.id,r.userId,r.productId)));
 })
 // id and updated info in payload
 Router.post("order/update", async function update(req, res) {
     const body = req.body;
-    const response = await ProductService.updateProduct(body.id, body)
+    const r = await OrderService.updateOrder(body.id, body)
     res.writeHead(200,headersCors)
-    res.end(JSON.stringify(response));
+    res.end(JSON.stringify( new OrderClass(r.id,r.userId,r.productId)));
 })

@@ -16,11 +16,12 @@ exports.save = function (paramInput) {
  * @param param
  */
 
-exports.update = function (username, paramInput) {
+exports.update = function (id, paramInput) {
     const param = paramInput || new User({id: 0, username: "", password: "",role:{}})
-    return UserModel.findOneAndUpdate({username: username}, {
+    return UserModel.findOneAndUpdate({id: id}, {
         $set: {
-            password: param.password,
+            username: param.username,
+            role:param.role.role
         }
     }, {
         upsert: true
@@ -59,6 +60,11 @@ exports.findByUsername = function (username) {
 }
 exports.removeByUsername = function (username) {
     return UserModel.deleteOne({username: username}).then(r => {
+        return r
+    });
+}
+exports.deleteById = function (id) {
+    return UserModel.deleteById(id).then(r => {
         return r
     });
 }

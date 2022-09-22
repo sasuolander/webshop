@@ -4,6 +4,10 @@
 
 class Carts {
     carts = []
+
+    getCarts(){
+        return this.carts
+    }
     addToCarts(item){
 
        const oldItem =this.carts.find(function (itemInList) {

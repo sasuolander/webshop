@@ -10,8 +10,10 @@ export default class View {
 
     constructor() {}
 
+    insertInitialData(){}
+
     init(state){
-        this.viewRoot =  $(`#${this.divName}`)
+        this.viewRoot = $(`#${this.divName}`)
         this.globalState = state
         this.initBoolean = true
         this.prepView()

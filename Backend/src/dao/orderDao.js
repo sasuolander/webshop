@@ -1,15 +1,15 @@
-const {OrderModel} = require("../schema/schema");
+const {OrderModel, UserModel} = require("../schema/schema");
 const Order = require("../model/order");
 
 /**
  * @param param
  */
 exports.save = function (paramInput) {
-    const param = paramInput || new Order({id: 0, name: "", price: 0 })
+    const param = paramInput || new Order({id: 0,userId:0,productId:0})
     if (param !== undefined) {
         return new OrderModel({
-            name: param.name,
-            price: param.price,
+            userId:param.userId,
+            productId:param.productId
         }).save().then(r => {
             return r
         });
@@ -26,11 +26,11 @@ exports.findAll = function () {
  */
 
 exports.update = async function (id, paramInput) {
-    const param = paramInput || new Order({id: 0, name: "", price: 0})
+    const param = paramInput || new Order({id: 0,userId:0,productId:0})
     return OrderModel.findOneAndUpdate({id: id}, {
         $set: {
-            name: param.name,
-            price: param.price,
+            userId:param.userId,
+            productId:param.productId
         }
     }, {
         upsert: true
@@ -55,10 +55,14 @@ exports.find = function (id) {
         return r
     });
 }
-/**
- * @param id
- */
-exports.remove = function (id) {
+
+exports.findByUserId = function (id) {
+    return OrderModel.find({userId: id}).then(r => {
+        return r
+    });
+}
+
+exports.deleteById = function (id) {
     return OrderModel.deleteById(id).then(r => {
         return r
     });

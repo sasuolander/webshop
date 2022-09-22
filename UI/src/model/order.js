@@ -2,6 +2,11 @@ import {Product} from "./product";
 
 export class Order {
     id = 0;
-    price = 0;
-    product: new Product();
+    userId =0;
+    productId=0;
+    constructor(id, userId,productId) {
+        this.id = id;
+        this.userId =userId;
+        this.productId=productId;
+    }
 }

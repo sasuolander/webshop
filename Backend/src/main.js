@@ -7,6 +7,7 @@ const Router = require("./router/router")
 const userController = require("./controller/userController")
 const loginController = require("./controller/loginController")
 const productController = require("./controller/productController")
+const orderController = require("./controller/orderController")
 const mongoose = require("mongoose")
 require('dotenv').config()
 mongoose.connect(process.env.DATABASE).then(r => console.log("connected"))
@@ -14,6 +15,7 @@ const router = new Router();
 userController()
 loginController()
 productController()
+orderController()
 
 const server = http.createServer(async (req, res) => {
 

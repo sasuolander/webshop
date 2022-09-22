@@ -23,6 +23,7 @@ module.exports = class Router  {
         const data = Buffer.concat(buffers).toString();
         if (data.length !== 0) {
             try {
+                console.log("rawData",data)
                 req.body = JSON.parse(data);
                 console.log("body parsed", JSON.parse(data));
             } catch (e) {

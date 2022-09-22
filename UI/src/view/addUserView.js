@@ -9,8 +9,6 @@ export default class AddUserView extends View {
     }
 
     updateView() {
-
-
         $(".addUserForm .add-user-button").click(
             function addUserButton(event){
                 console.log("add")

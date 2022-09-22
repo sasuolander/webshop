@@ -1,33 +1,58 @@
 import TableView from "./tableView";
+import {deleteUser, getUsers, updateUser} from "../backend/backend";
 
 export default class UserManagementView extends TableView {
     visibleInitially = false
-    constructor() {
+
+    constructor(getUsers) {
         super();
         this.divName = "userManagementView"
         this.tableId = `table-${this.divName}`
     }
-    headers =["Id","Name"]
 
-    data =  [
-        [
-            1, "tom"
-        ],
-        [
-            2,"juha"
-        ]  ,
-        [
-            3, "timi"
-        ],
-        [
-            4, "farno",
-        ],
-        [   5, "tieru", ]]
+    headers = ["Id", "Name", "Role"]
+    data
+    async insertInitialData() {
+        const me = this
+        const data = await getUsers()
+        const dataPrep = data.data.map((r) => {
+            return [r.id, r.username, r.role.role]
+        })
+        me.data = dataPrep
+    }
 
-    update(event) {
-        super.update(event);
+    async reloadTable() {
+        const me = this
+        me.viewRoot.empty()
+        me.headers = ["Id", "Name", "Role"]
+        me.prepView()
     }
-    delete(event) {
-    super.delete(event);
+
+    updateView() {
+        super.updateView()
     }
+
+    async update(event, rowId) {
+        const me = this
+        super.update(event, rowId);
+        const id = parseInt($(`.${this.tableId} .column-id-${rowId}`).text())
+        const name = $(`.${this.tableId} .column-name-${rowId}`).text()
+        const roleName = $(`.${this.tableId} .column-role-${rowId}`).text()
+        if (roleName === "admin"|| roleName === "userNormal" ||roleName === "nonLogged"){
+            updateUser(id,name,roleName)
+            await me.reloadTable()
+        } else if(typeof roleName=== "undefined") {
+            console.debug("undefined")
+        } else throw Error("Not valid user role")
+    }
+
+    async delete(event, rowId) {
+        const me = this
+        super.delete(event, rowId);
+        const id = parseInt($(`.${this.tableId} .column-id-${rowId}`).text())
+        console.log(id)
+        deleteUser(id)
+        await me.reloadTable()
+    }
+
 }

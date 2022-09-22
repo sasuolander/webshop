@@ -7,33 +7,49 @@ export default class TableView extends View {
     constructor() {
         super();
     }
+    headers = []
+    data= []
 
-    headers =["Data","Action"]
-    data = [["data","action"],["data2","action2"],["data3","action3"]]
-    // = `table-${this.divName}`
-    update(event,index){}
-
-    delete(event,index){}
-
-    updateView() {
+    async prepView() {
         const  me = this
+        if (!me.initBoolean) {
+            throw Error("View is not initialised.")
+        } else {
+            me.insertView();
+            await me.insertInitialData()
+            await me.updateView();
+        }
+    }
+
+    reloadTable() {}
+
+    insertInitialData(){}
+
+    update(event,rowId){}
+
+    delete(event,rowId){}
+
+    async updateView() {
+        const me = this
         const headerTemplate = function (name) {
-           return `<th>${name}</th>`
+            return `<th>${name}</th>`
         }
         const classTable = `.${this.tableId}`
-        const dataRowElement = function (value,field,iteration){
-            return `<td contenteditable="true" class='${classTable} column-${field}-${iteration}'>${value}</td>`
+        const dataRowElement = function (value, field, iteration) {
+            return `<td contenteditable="true" class='${classTable} column-${field}-${iteration}' data-id=${value}  >${value}</td>`
         }
-        const dataRowElementNoEdit = function (value,field,iteration){
+        const dataRowElementNoEdit = function (value, field, iteration) {
             return `<td class='${classTable} column-${field}-${iteration}' >${value}</td>`
         }
-        const updateRowElement = function (value,iteration){
+        const updateRowElement = function (value, iteration) {
             return `<td class='${classTable} update-button update-row-${iteration}' type="button"> <button>${value}</button></td>`
         }
-        const deleteRowElement = function (value,iteration){
+        const deleteRowElement = function (value, iteration) {
             return `<td class='${classTable} delete-button delete-row-${iteration}'><button>${value}</button></td>`
         }
-        const dataRow = function (iteration){return `<tr class='${classTable} data-row data-row-${iteration}'></tr>`}
+        const dataRow = function (iteration) {
+            return `<tr class='${classTable} data-row data-row-${iteration}'></tr>`
+        }
 
         me.headers.push("Update")
         me.headers.push("Delete")
@@ -52,31 +68,28 @@ export default class TableView extends View {
             for (let j = 0; j < me.data[i].length; j++) {
                 const element = me.data[i][j]
 
-                if (element ==="Update"){
-                    $(`${classTable} .data-row-${i}`).append(updateRowElement(element,i))
+                if (element === "Update") {
+                    $(`${classTable} .data-row-${i}`).append(updateRowElement(element, i))
 
-                    $(`${classTable} .update-row-${i}`).on("click",function (event) {
+                    $(`${classTable} .update-row-${i}`).on("click", function (event) {
                         console.log("update")
-                        me.update(event,i)
+                        me.update(event, i)
                     })
 
-                } else if (element === "Delete"){
-                    $(`${classTable} .data-row-${i}`).append(deleteRowElement(element,i))
-                    $(`${classTable} .delete-row-${i}`).on("click",function (event) {
+                } else if (element === "Delete") {
+                    $(`${classTable} .data-row-${i}`).append(deleteRowElement(element, i))
+                    $(`${classTable} .delete-row-${i}`).on("click", function (event) {
                         console.log("delete")
-                        me.delete(event,i)
+                        me.delete(event, i)
                     })
 
-                }else if(j ===0){
-                    $(`${classTable} .data-row-${i}`).append(dataRowElementNoEdit(element, me.headers[j].toLowerCase(),i))
-                }else{
-                    $(`${classTable} .data-row-${i}`).append(dataRowElement(element,me.headers[j].toLowerCase(),i))
+                } else if (j === 0) {
+                    $(`${classTable} .data-row-${i}`).append(dataRowElementNoEdit(element, me.headers[j].toLowerCase(), i))
+                } else {
+                    $(`${classTable} .data-row-${i}`).append(dataRowElement(element, me.headers[j].toLowerCase(), i))
                 }
             }
         }
-
-        //$("#mainTable").editableTableWidget()
-        //super.updateView();
     }
 
     insertView() {
@@ -84,6 +97,6 @@ export default class TableView extends View {
             `<table class=\"${this.tableId} table table-striped\">` +
             `<thead class='${this.tableId} data-header'><tr class='${this.tableId} data-header-tr'> </tr></thead>` +
             `<tbody class='${this.tableId} data-body' ></tbody>` +
-            "          </table>");
+            "          </table>"+"<div id ='tableEndButton' ></div>");
     }
 }

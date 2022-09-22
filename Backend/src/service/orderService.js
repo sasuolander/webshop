@@ -1,7 +1,7 @@
 
-const dao = require("../dao/productDao");
+const dao = require("../dao/orderDao");
 
-exports.createProduct = function (body) {
+exports.createOrder = function (body) {
     return dao.save(body).then(r => {
         return r
     }).catch(function (err) {
@@ -9,26 +9,26 @@ exports.createProduct = function (body) {
     });
 }
 
-exports.deleteProduct = function (id) {
+exports.deleteOrder = function (id) {
     return dao.deleteById(id).then(r => {
         return r
     }).catch(function (err) {
         console.log(err)
     });
 }
-exports.getProducts = function () {
+exports.getOrders = function () {
     return dao.findAll();
 }
 
-exports.getProductByName = function (name) {
-    return dao.findByName(name).then(r => {
+exports.getOrderByUserId = function (id) {
+    return dao.findByUserId(id).then(r => {
         return r
     }).catch(function (err) {
         console.log(err)
     });
 }
 
-exports.updateProduct = function (id, body) {
+exports.updateOrder = function (id, body) {
     return dao.update(id, body).then(r => {
         return r
     }).catch(function (err) {

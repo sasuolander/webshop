@@ -15,6 +15,13 @@ exports.deleteUser = function (username) {
         console.log(err)
     });
 }
+exports.deleteUserById = function (id) {
+    return dao.deleteById(id).then(r => {
+        return r
+    }).catch(function (err) {
+        console.log(err)
+    });
+}
 
 
 exports.getUserByName = function (username) {
@@ -44,8 +51,8 @@ exports.authenticate = async function (username, password) {
 
 }
 
-exports.updateUser = function (username, body) {
-    return dao.update(username, body).then(r => {
+exports.updateUser = function (id, body) {
+    return dao.update(id, body).then(r => {
         return r
     }).catch(function (err) {
         console.log(err)
