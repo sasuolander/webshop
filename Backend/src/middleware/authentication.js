@@ -6,6 +6,7 @@ const UserService = require("../service/userService");
 const {headersCors} = require("../headersCors");
 const jwt = require("jsonwebtoken");
 const {config} = require("dotenv");
+const {TokenExpiredError} = require("jsonwebtoken");
 
 module.exports.authenticate = async function (req, res) {
     let user
@@ -14,19 +15,30 @@ module.exports.authenticate = async function (req, res) {
     const token = req.headers["x-access-token"];
 
     if (!token) {
-        return res.writeHead(401, headersCors).end(JSON.stringify({message: 'Missing token'}));
+        res.writeHead(401, headersCors).end(JSON.stringify({message: 'Missing token'}));
+        return;
     }
     try {
         const decoded = jwt.verify(token, process.env.TOKEN_KEY);
         console.log("decoded", decoded)
         user = decoded;
     } catch (err) {
-        console.log(err)
-        return res.writeHead(401, headersCors).end(JSON.stringify({message: 'Invalid token'}));
+
+        if ( err instanceof  TokenExpiredError){
+            res.writeHead(401, headersCors).end(JSON.stringify({message: 'Invalid token'}));
+            return;
+        }else {
+            console.log(err)
+            res.writeHead(401, headersCors).end(JSON.stringify({message: 'Invalid token'}));
+            return;
+        }
+
+
     }
 
     console.log("decoded", user)
     req.user = user
+    return true
 }
 
 module.exports.validateLogin = async function (req, res) {
@@ -34,7 +46,8 @@ module.exports.validateLogin = async function (req, res) {
     const authorizationHeader = req.headers.authorization
     console.log(authorizationHeader)
     if (!authorizationHeader || authorizationHeader.indexOf('Basic ') === -1) {
-        return res.writeHead(401,headersCors).end(JSON.stringify({message: 'Missing Authorization Header'}));
+        res.writeHead(401,headersCors).end(JSON.stringify({message: 'Missing Authorization Header'}));
+        return;
     }
 
     // verify auth credentials
@@ -44,7 +57,8 @@ module.exports.validateLogin = async function (req, res) {
 
     const user = await UserService.authenticate(username, password);
     if (!user) {
-        return res.writeHead(401,headersCors).end(JSON.stringify({message: 'Invalid Authentication Credentials'}));
+        res.writeHead(401,headersCors).end(JSON.stringify({message: 'Invalid Authentication Credentials'}));
+        return;
     }
     // Create token
     // save user token

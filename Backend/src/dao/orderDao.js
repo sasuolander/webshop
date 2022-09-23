@@ -1,4 +1,4 @@
-const {OrderModel, UserModel} = require("../schema/schema");
+const {OrderModel} = require("../schema/schema");
 const Order = require("../model/order");
 
 /**

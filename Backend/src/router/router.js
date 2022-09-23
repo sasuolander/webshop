@@ -36,8 +36,10 @@ module.exports = class Router  {
         if (typeof req !== 'undefined' || typeof res !== 'undefined') {
             await this.parser(req)
             const {authenticate} = require("../middleware/authentication")
-            authenticate(req, res).then(
-                await callback(req, res)
+            authenticate(req, res).then(async function (r) {
+                if(r && typeof r !== 'undefined' )
+                    await callback(req, res)
+                }
             ).catch(t => console.log(t))
 
         }
@@ -65,7 +67,7 @@ module.exports = class Router  {
             throw Error("Empty routes table")
 
 
-        if (req.url ==="/login" ){
+        if (req.url ==="/login" ||  req.url ==="/user" && req.method === "POST" ){
             const routeFound = Router.routes.find(function (route) {
                 return route.url === req.url && route.method === req.method
             })

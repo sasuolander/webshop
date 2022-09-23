@@ -5,7 +5,10 @@ module.exports  = class Role {
             this.role = roleName;
         } else if(typeof roleName=== "undefined") {
           //  console.debug("undefined")
-        } else throw Error("Not valid user role")
+        } else {
+            console.log(roleName)
+            throw Error("Not valid user role")
+        }
     }
     isAdmin = function (){
         return this.role === "admin";

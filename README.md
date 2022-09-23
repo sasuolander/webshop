@@ -3,6 +3,10 @@ adminTest
 adminTest
 normi
 normi
+adminTest2
+adminTest2
+guest2
+guest2
 The system provides a different set of functionality for each user role. User roles in the system: 
 
 Non-logged-in User

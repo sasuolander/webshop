@@ -1,4 +1,4 @@
-const {ProductModel, UserModel} = require("../schema/schema");
+const {ProductModel} = require("../schema/schema");
 const Product = require("../model/product");
 
 /**

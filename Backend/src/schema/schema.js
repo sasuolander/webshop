@@ -9,15 +9,7 @@ const userSchema = new mongoose.Schema({
     ttl:"",
     role: Object
 })
-
-const tokenSchema = new mongoose.Schema({
-    id: { type: Number,  index: { unique: true, sparse: true }},
-    username: String,
-
-})
-tokenSchema.plugin(AutoIncrement,{id:'user_counter',inc_field: 'id'})
-
-
+userSchema.plugin(AutoIncrement,{id:'user_counter',inc_field: 'id'})
 userSchema.statics.deleteById = function(_id) {
     return this.deleteOne({ id: _id })
 };
