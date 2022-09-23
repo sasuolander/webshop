@@ -25,9 +25,6 @@ export default class ShopView extends View {
         }
     }
 
-    insertInitialData() {
-    }
-
     async updateView() {
         const me = this
 

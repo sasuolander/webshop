@@ -26,9 +26,11 @@ export default class TableView extends View {
     }
 
     update(event, rowId) {
+        // insert your update logic
     }
 
     delete(event, rowId) {
+        // insert your delete logic
     }
 
     async updateView() {
@@ -56,24 +58,19 @@ export default class TableView extends View {
         me.headers.push("Update")
         me.headers.push("Delete")
 
-
         me.data?.map(function (element) {
             if (typeof element !== "undefined" && element !== null) {
                 if (element.toString().match(/Update/g) == null) {
                     if (element.toString().match(/Update/g) !== null && element.toString().match(/Update/g).length === 0) {
-                        element.push("Update")
-                    } else {
-                        element.push("Update")
+                        element.push("Update");return
                     }
-
+                    element.push("Update")
                 }
                 if (element.toString().match(/Delete/g) == null) {
                     if (element.toString().match(/Delete/g) !== null && element.toString().match(/Delete/g).length === 0) {
-                        element.push("Delete")
-                    } else {
-                        element.push("Delete")
+                        element.push("Delete");return
                     }
-
+                    element.push("Delete")
                 }
             }
 

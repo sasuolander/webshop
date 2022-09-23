@@ -84,9 +84,6 @@ export default class CartManagementView extends TableView {
         })
     }
 
-    async update(event, rowId) {
-    }
-
     async delete(event, rowId) {
         const me = this
         super.delete(event, rowId);

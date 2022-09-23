@@ -14,7 +14,6 @@ export default class OrderManagementView extends TableView {
         this.tableId = `table-${this.divName}`
     }
 
-
     headers = ["Id", "productId", "UserId"]
 
     data

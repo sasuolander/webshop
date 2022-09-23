@@ -16,10 +16,9 @@ export default class UserManagementView extends TableView {
     async insertInitialData() {
         const me = this
         const data = await getUsers()
-        const dataPrep = data?.data.map((r) => {
+        me.data = data?.data.map((r) => {
             return [r.id, r.username, r.role.role]
         })
-        me.data = dataPrep
     }
 
     async reloadTable() {

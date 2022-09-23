@@ -11,9 +11,6 @@ export default class View {
     constructor() {
     }
 
-    insertInitialData() {
-    }
-
     init(state) {
         this.viewRoot = $(`#${this.divName}`)
         this.globalState = state
@@ -49,6 +46,10 @@ export default class View {
             await me.updateView();
 
         }
+    }
+
+    insertInitialData() {
+        // initial data fething logic
     }
 
     reloadView() {
