@@ -33,7 +33,6 @@ module.exports.authenticate = async function (req, res) {
 
 module.exports.validateLogin = async function (req, res) {
     const authorizationHeader = req.headers.authorization
-    console.log(authorizationHeader)
     if (!authorizationHeader || authorizationHeader.indexOf('Basic ') === -1) {
         res.writeHead(401, headersCors).end(JSON.stringify({message: 'Missing Authorization Header'}));
         return;

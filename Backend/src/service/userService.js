@@ -40,19 +40,22 @@ exports.getUsers = function () {
 }
 
 exports.authenticate = async function (username, password) {
-    if (username === "testuser" && process.env.DEV) {
-        return true
+    if (process.env.DEV === true && username === "testuser") {
+        return new UserClass().createUser(0,"testuser" , new Role("admin"))
     } else {
         let user = await dao.findByUsername(username).then(r => {
             return r
         }).catch(function (err) {
             console.log(err)
         });
-        console.log(user)
-        user = user[0]._doc
-        const passwordtest = await bcrypt.compare(password, user.password)
-        if (!!(user && passwordtest)) {
-            return new UserClass().createUser(user.id, user.username, new Role(user.role))
+        try {
+            user = user[0]._doc
+            const passwordtest = await bcrypt.compare(password, user.password)
+            if (!!(user && passwordtest)) {
+                return new UserClass().createUser(user.id, user.username, new Role(user.role))
+            }
+        }catch (e) {
+            console.log(e)
         }
     }
 }

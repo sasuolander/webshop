@@ -1,12 +1,16 @@
-docker compose -p webproject1 -f system.yaml up
-adminTest
-adminTest
-normi
-normi
-adminTest2
-adminTest2
-guest2
-guest2
+
+nosta docker oleva tietokanta ajamalla docker compose -p webproject1 -f system.yaml up
+
+Systeemiin on kovakoodattu käyttäjä testuser, joka toimii kun env DEV = true. 
+Voit sillä luoda uuden käyttäjän.
+
+Tämä viritelmä ei tietoturvallinen mutta tässä yhteydessä 
+kätevin tapa hoitaa systeemin aloitus. Oikeassa systeemissä pitäisi olla oma asennuohjelma/prosessi
+jossa määritetään ensimmäinen käyttäjä.
+
+npm run start komennolla lähtee toimimaan kun ajetaan oikeassa kansiossa.
+
+
 The system provides a different set of functionality for each user role. User roles in the system: 
 
 Non-logged-in User
