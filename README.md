@@ -8,11 +8,11 @@ Tämä viritelmä ei tietoturvallinen mutta tässä yhteydessä
 kätevin tapa hoitaa systeemin aloitus. Oikeassa systeemissä pitäisi olla oma asennuohjelma/prosessi
 jossa määritetään ensimmäinen käyttäjä.
 
-Backend kansiossa luo .env joss tämä sisältö:
+Backend kansiossa luo .env jossa tämä sisältö:
 DATABASE=mongodb://localhost:27017/test
 MONGODB_USERNAME=salasana
 MONGODB_PASSWORD=salasana
-DEV=false
+DEV=true
 TOKEN_KEY= //token hash jolla salasana salataan, salt koodi
 
 npm install ja npm run start komennolla lähtee toimimaan kun ajetaan oikeassa kansiossa.
