@@ -1,5 +1,8 @@
 import View from "./view";
 import {loginBasic} from "../backend/backend";
+import {eventbus, state} from "../main";
+import {User} from "../model/user";
+import {Role} from "../model/role";
 
 
 export default class LoginView extends View {
@@ -16,7 +19,13 @@ export default class LoginView extends View {
                 const parameter =$("#loginView :input").serializeArray()
                 const username = parameter[0].value
                 const password = parameter[1].value
-                loginBasic(username,password)
+                loginBasic(username,password).then(r  =>{
+                    document.cookie="login=true"
+                    document.cookie=`token=${r.data.token}`
+                    state.login = true
+                    state.user = new User().createUser(r.data.id,r.data.username, new Role(r.data.role))
+                    eventbus.emit("reloadPage",{})
+                })
             })
     }
 

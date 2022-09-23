@@ -35,31 +35,27 @@ module.exports = class Router  {
     async requestValidator(req, res, callback) {
         if (typeof req !== 'undefined' || typeof res !== 'undefined') {
             await this.parser(req)
-            //console.log(req)
-           await callback(req, res)
+            const {authenticate} = require("../middleware/authentication")
+            authenticate(req, res).then(
+                await callback(req, res)
+            ).catch(t => console.log(t))
+
+        }
+    }
+    async requestValidatorLogin(req, res, callback) {
+        if (typeof req !== 'undefined' || typeof res !== 'undefined') {
+            await this.parser(req)
+            await callback(req, res)
         }
     }
 
-    async requestValidator2(req, res) {
-        if (typeof req !== 'undefined' || typeof res !== 'undefined') {
-            const reqInner = await this.parser(req)
-          return {req:reqInner,res:res}
-        }
-    }
+
 
     main = async function (req, res) {
-        const {authenticate} = require("../middleware/authentication")
+
         const me = this
-        // check cookie
+
        //const item =  me.requestValidator(req, res)
-       /* if (!req.headers.get("Authorization")){
-            res.statusCode = 401
-            throw Error("No Authentication")
-        }*/
-
-
-
-
       //  const stateResponse = await authenticate(item.req,item.res)
 
 
@@ -68,6 +64,18 @@ module.exports = class Router  {
         if (Router.routes.length === 0)
             throw Error("Empty routes table")
 
+
+        if (req.url ==="/login" ){
+            const routeFound = Router.routes.find(function (route) {
+                return route.url === req.url && route.method === req.method
+            })
+
+            console.log(req.url, req.method)
+            console.log(routeFound)
+            if (typeof routeFound.callback === "function") {
+                await me.requestValidatorLogin(req, res, routeFound.callback)
+            }
+            }else {
 
             const routeFound = Router.routes.find(function (route) {
                 return route.url === req.url && route.method === req.method
@@ -85,6 +93,12 @@ module.exports = class Router  {
             } else {
                 console.log("Did not find endpoint: " + req.url)
             }
+            }
+
+
+
+
+
 
     }
 };

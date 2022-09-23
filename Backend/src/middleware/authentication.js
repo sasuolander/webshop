@@ -4,30 +4,29 @@
 
 const UserService = require("../service/userService");
 const {headersCors} = require("../headersCors");
+const jwt = require("jsonwebtoken");
+const {config} = require("dotenv");
 
 module.exports.authenticate = async function (req, res) {
     let user
-    req.on("end", async function (req) {
-        const authorizationHeader = req.headers.authorization
+    console.log("authenticate")
 
-        if (!authorizationHeader || authorizationHeader.indexOf('Basic ') === -1) {
-            return res.status(401).json({message: 'Missing Authorization Header'});
-        }
+    const token = req.headers["x-access-token"];
 
-        // verify auth credentials
-        const base64Credentials = authorizationHeader.split(' ')[1];
-        const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
-        const [username, password] = credentials.split(':');
-        user = await UserService.authenticate({username, password});
-        if (!user) {
-            return res.end(JSON.stringify({message: 'Invalid Authentication Credentials'}));
-        }
+    if (!token) {
+        return res.writeHead(401, headersCors).end(JSON.stringify({message: 'Missing token'}));
+    }
+    try {
+        const decoded = jwt.verify(token, process.env.TOKEN_KEY);
+        console.log("decoded", decoded)
+        user = decoded;
+    } catch (err) {
+        console.log(err)
+        return res.writeHead(401, headersCors).end(JSON.stringify({message: 'Invalid token'}));
+    }
 
-        // attach user to request object
-
-    })
+    console.log("decoded", user)
     req.user = user
-
 }
 
 module.exports.validateLogin = async function (req, res) {
@@ -35,7 +34,7 @@ module.exports.validateLogin = async function (req, res) {
     const authorizationHeader = req.headers.authorization
     console.log(authorizationHeader)
     if (!authorizationHeader || authorizationHeader.indexOf('Basic ') === -1) {
-        return res.writeHead(401).end(JSON.stringify({message: 'Missing Authorization Header'}));
+        return res.writeHead(401,headersCors).end(JSON.stringify({message: 'Missing Authorization Header'}));
     }
 
     // verify auth credentials
@@ -45,11 +44,21 @@ module.exports.validateLogin = async function (req, res) {
 
     const user = await UserService.authenticate(username, password);
     if (!user) {
-        return res.writeHead(401).end(JSON.stringify({message: 'Invalid Authentication Credentials'}));
+        return res.writeHead(401,headersCors).end(JSON.stringify({message: 'Invalid Authentication Credentials'}));
     }
+    // Create token
+    // save user token
+    user.token = jwt.sign(
+        {user_id: user.id,username:user.username,role:user.role.role},
+        process.env.TOKEN_KEY,
+        {
+            expiresIn: "2h",
+        }
+    );
 
+    // user
     res.setHeader("Set-Cookie","login=true")
     res.writeHead(200,headersCors)
-    return   res.end()
+    return   res.end(JSON.stringify({id:user.id,username:user.username,role:user.role.role,token:user.token}))
 
 }

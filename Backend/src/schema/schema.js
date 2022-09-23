@@ -5,9 +5,17 @@ const userSchema = new mongoose.Schema({
     id: { type: Number,  index: { unique: true, sparse: true }},
     username: String,
     password: String,
+    token: "",
+    ttl:"",
     role: Object
 })
-userSchema.plugin(AutoIncrement,{id:'user_counter',inc_field: 'id'})
+
+const tokenSchema = new mongoose.Schema({
+    id: { type: Number,  index: { unique: true, sparse: true }},
+    username: String,
+
+})
+tokenSchema.plugin(AutoIncrement,{id:'user_counter',inc_field: 'id'})
 
 
 userSchema.statics.deleteById = function(_id) {
@@ -43,4 +51,5 @@ module.exports = {
     OrderModel:mongoose.model('OrderModel', orderSchema),
     ProductModel:mongoose.model('ProductModel', productSchema),
     UserModel: mongoose.model('UserModel', userSchema),
+    tokenSchema: mongoose.model('UserModel', userSchema),
 };

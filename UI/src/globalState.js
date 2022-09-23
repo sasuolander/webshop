@@ -2,6 +2,9 @@
 // event buss ?
 
 
+import {Role} from "./model/role";
+import {User} from "./model/user";
+
 class Carts {
     carts = []
 
@@ -30,7 +33,7 @@ class Carts {
 export default class GlobalState {
 
     carts = new Carts()
-    user = []
+    user = new User("nonlogged","",new Role("nonLogged"))
     login = false
 
     constructor(ars) {}

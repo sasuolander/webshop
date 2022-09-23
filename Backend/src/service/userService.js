@@ -1,4 +1,7 @@
 const dao = require("../dao/userDao");
+const UserClass = require("../model/user");
+const Role = require("../model/role");
+const bcrypt = require("bcryptjs");
 
 exports.createUser = function (body) {
     return dao.save(body).then(r => {
@@ -41,12 +44,17 @@ exports.authenticate = async function (username, password) {
     if (username === "testuser" && process.env.DEV) {
         return true
     } else {
-        const user = await dao.findByUsername(username).then(r => {
+        let user = await dao.findByUsername(username).then(r => {
             return r
         }).catch(function (err) {
             console.log(err)
         });
-        return user.password === password;
+        console.log(user)
+        user =user[0]._doc
+        const passwordtest =await bcrypt.compare(password, user.password)
+        if(!!(user && passwordtest)){
+            return new UserClass().createUser(user.id,user.username,new Role(user.role))
+        }
     }
 
 }

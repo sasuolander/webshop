@@ -38,6 +38,20 @@ export default class View {
         }
     }
 
+    async prepViewInternal() {
+        const  me = this
+        if (!me.initBoolean) {
+            throw Error("View is not initialised.")
+        } else {
+            me.insertView();
+            await me.updateView();
+
+        }
+    }
+
+    reloadView() {
+    }
+
     insertView () {
         // insert your view
     }

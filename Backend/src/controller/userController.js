@@ -23,10 +23,16 @@ Router.get("users", async function getUser(req, res) {
 
 Router.post("user", async function addUser(req, res) {
     const body = req.body;
-    const saved = await UserService.createUser(body)
-    const data = saved._doc
-    res.writeHead(200,headersCors)
-    res.end(JSON.stringify(new UserClass().createUser(data.id,data.username,new Role(data.role))));
+    const found = await UserService.getUserByName(body.username)
+    if (typeof found.id ==="undefined"){
+        const saved = await UserService.createUser(body)
+        const data = saved._doc
+        res.writeHead(200,headersCors)
+        res.end(JSON.stringify(new UserClass().createUser(data.id,data.username,new Role(data.role))));
+    }else  {
+        res.writeHead(500,headersCors)
+        res.end(JSON.stringify({message:"username is already in used"}));
+    }
 })
 
 Router.delete("user", async function deleteUser(req, res) {

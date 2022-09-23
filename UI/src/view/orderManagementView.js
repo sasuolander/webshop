@@ -21,10 +21,19 @@ export default class OrderManagementView extends TableView {
 
     visibleInitially = false
 
+    filter(data,me){
+
+       if (me.admin){
+        return data?.data
+       }else {
+           return data?.data.filter(r=>r.userId === this.globalState?.user[0].id)
+       }
+    }
+
     async insertInitialData() {
         const me = this
         const data = await getOrders()
-        const dataPrep = data?.data.map((r) => {return [r.id, r.productId, r.userId]})
+        const dataPrep = me.filter(data,me).map((r) => {return [r.id, r.productId, r.userId]})
         me.data = dataPrep
     }
 
@@ -35,8 +44,36 @@ export default class OrderManagementView extends TableView {
         me.prepView()
     }
 
+    async reloadInternalTable() {
+        const me = this
+        me.viewRoot.empty()
+        me.headers = ["Id","productId", "UserId"]
+        await me.prepViewInternal()
+    }
+
     updateView() {
         super.updateView()
+        const me = this
+        $('.order-view').on("click", async function (event) {
+            console.log("orderpad")
+
+            const data = await getOrders()
+            me.data = me.filter(data,me).map((r) => {
+                return [r.id, r.productId, r.userId]
+            })
+            me.reloadInternalTable()
+        })
+    }
+
+    async prepViewInternal() {
+        const  me = this
+        if (!me.initBoolean) {
+            throw Error("View is not initialised.")
+        } else {
+            me.insertView();
+            await me.updateView();
+
+        }
     }
 
     async update(event, rowId) {
@@ -57,6 +94,4 @@ export default class OrderManagementView extends TableView {
         deleteOrder(id)
         await me.reloadTable()
     }
-
-
 }

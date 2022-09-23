@@ -1,6 +1,5 @@
-import View from "./view";
 import TableView from "./tableView";
-import {deleteOrder, deleteProduct, getProducts, updateOrder, updateProduct} from "../backend/backend";
+import {deleteProduct, getProducts, updateProduct} from "../backend/backend";
 
 export default class ProductManagementView extends TableView {
     constructor() {
@@ -18,10 +17,15 @@ export default class ProductManagementView extends TableView {
     async insertInitialData() {
         const me = this
         const data = await getProducts()
-        const dataPrep = data.data.map((r) => {
-            return [r.id, r.name, r.price,r.additionalInfo]
+        me.data = data?.data.map((r) => {
+            return [r.id, r.name, r.price, r.additionalInfo]
         })
-        me.data = dataPrep
+    }
+    async reloadInternalTable() {
+        const me = this
+        me.viewRoot.empty()
+        me.headers = ["Id","Name","Price","Additional-Info"]
+        await me.prepViewInternal()
     }
 
     async reloadTable() {
@@ -33,6 +37,15 @@ export default class ProductManagementView extends TableView {
 
     updateView() {
         super.updateView()
+        const me = this
+        $('.admin-view').on("click", async function (event) {
+ console.log('.admin-view')
+            const data = await getProducts()
+            me.data = data.data.map((r) => {
+                return [r.id, r.name, r.price,r.additionalInfo]
+            })
+            me.reloadInternalTable()
+        })
     }
 
     async update(event, rowId) {
@@ -42,7 +55,6 @@ export default class ProductManagementView extends TableView {
         const name = $(`.${this.tableId} .column-name-${rowId}`).text()
         const price = $(`.${this.tableId} .column-price-${rowId}`).text()
         const additionalInfo = $(`.${this.tableId} .column-additional-info-${rowId}`).text()
-        console.log("additionalInfo",additionalInfo)
         await updateProduct(id,name,additionalInfo,price)
         await me.reloadTable()
     }

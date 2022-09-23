@@ -15,7 +15,7 @@ export default class UserManagementView extends TableView {
     async insertInitialData() {
         const me = this
         const data = await getUsers()
-        const dataPrep = data.data.map((r) => {
+        const dataPrep = data?.data.map((r) => {
             return [r.id, r.username, r.role.role]
         })
         me.data = dataPrep
@@ -28,8 +28,23 @@ export default class UserManagementView extends TableView {
         me.prepView()
     }
 
+    async reloadInternalTable() {
+        const me = this
+        me.viewRoot.empty()
+        me.headers = ["ProductId","userid","Price"]
+        await me.prepViewInternal()
+    }
+
     updateView() {
         super.updateView()
+        const me = this
+        $('.user-view').on("click", async function (event) {
+            const data = await getUsers()
+            me.data = data.data.map((r) => {
+                return [r.id, r.username, r.role.role]
+            })
+            await me.reloadInternalTable()
+        })
     }
 
     async update(event, rowId) {

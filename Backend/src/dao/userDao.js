@@ -1,13 +1,20 @@
 const {UserModel} = require("../schema/schema");
 const User = require("../model/user");
+const bcrypt = require("bcryptjs");
 /**
  * @param param
  */
-exports.save = function (paramInput) {
-    console.log("param",paramInput)
-    const param = paramInput || new User({id: 0, username: "", password: "",role:{}})
+exports.save = async function (paramInput) {
+    console.log("param", paramInput)
+    const param = paramInput || new User({id: 0, username: "", password: "", role: {}})
+
+    const encryptedPassword = await bcrypt.hash(param.password, 10);
     if (param !== undefined) {
-        return new UserModel({username: param.username,password:param.password,role:param.role.role}).save().then(r => {
+        return new UserModel({
+            username: param.username,
+            password: encryptedPassword,
+            role: param.role.role
+        }).save().then(r => {
             return r
         });
     }

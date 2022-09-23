@@ -4,7 +4,7 @@ module.exports  = class User {
     id = 0;
     username = "";
     password = "";
-    role = new Role()
+    role
 
     createUser(id,username,role) {
         this.id = id

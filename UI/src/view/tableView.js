@@ -54,7 +54,9 @@ export default class TableView extends View {
         me.headers.push("Update")
         me.headers.push("Delete")
 
-        me.data.map(function (element) {
+
+
+        me.data?.map(function (element) {
             element.push("Update")
             element.push("Delete")
         })
@@ -63,33 +65,37 @@ export default class TableView extends View {
             $(`${classTable} .data-header-tr`).append(headerTemplate(value))
         })
 
-        for (let i = 0; i < me.data.length; i++) {
-            $(`${classTable} .data-body`).append(dataRow(i))
-            for (let j = 0; j < me.data[i].length; j++) {
-                const element = me.data[i][j]
+        if(typeof me.data !== "undefined"){
+            for (let i = 0; i < me.data.length; i++) {
+                $(`${classTable} .data-body`).append(dataRow(i))
+                for (let j = 0; j < me.data[i].length; j++) {
+                    const element = me.data[i][j]
 
-                if (element === "Update") {
-                    $(`${classTable} .data-row-${i}`).append(updateRowElement(element, i))
+                    if (element === "Update") {
+                        $(`${classTable} .data-row-${i}`).append(updateRowElement(element, i))
 
-                    $(`${classTable} .update-row-${i}`).on("click", function (event) {
-                        console.log("update")
-                        me.update(event, i)
-                    })
+                        $(`${classTable} .update-row-${i}`).on("click", function (event) {
+                            console.log("update")
+                            me.update(event, i)
+                        })
 
-                } else if (element === "Delete") {
-                    $(`${classTable} .data-row-${i}`).append(deleteRowElement(element, i))
-                    $(`${classTable} .delete-row-${i}`).on("click", function (event) {
-                        console.log("delete")
-                        me.delete(event, i)
-                    })
+                    } else if (element === "Delete") {
+                        $(`${classTable} .data-row-${i}`).append(deleteRowElement(element, i))
+                        $(`${classTable} .delete-row-${i}`).on("click", function (event) {
+                            console.log("delete")
+                            me.delete(event, i)
+                        })
 
-                } else if (j === 0) {
-                    $(`${classTable} .data-row-${i}`).append(dataRowElementNoEdit(element, me.headers[j].toLowerCase(), i))
-                } else {
-                    $(`${classTable} .data-row-${i}`).append(dataRowElement(element, me.headers[j].toLowerCase(), i))
+                    } else if (j === 0) {
+                        $(`${classTable} .data-row-${i}`).append(dataRowElementNoEdit(element, me.headers[j].toLowerCase(), i))
+                    } else {
+                        $(`${classTable} .data-row-${i}`).append(dataRowElement(element, me.headers[j].toLowerCase(), i))
+                    }
                 }
             }
         }
+
+
     }
 
     insertView() {

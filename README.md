@@ -1,6 +1,8 @@
 docker compose -p webproject1 -f system.yaml up
-
-
+adminTest
+adminTest
+normi
+normi
 The system provides a different set of functionality for each user role. User roles in the system: 
 
 Non-logged-in User
