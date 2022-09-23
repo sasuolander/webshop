@@ -15,7 +15,7 @@ MONGODB_PASSWORD=salasana
 DEV=false
 TOKEN_KEY= //token hash jolla salasana salataan, salt koodi
 
-npm run start komennolla lähtee toimimaan kun ajetaan oikeassa kansiossa.
+npm install ja npm run start komennolla lähtee toimimaan kun ajetaan oikeassa kansiossa.
 
 
 The system provides a different set of functionality for each user role. User roles in the system: 
