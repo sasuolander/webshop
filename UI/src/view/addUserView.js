@@ -4,6 +4,7 @@ import {addUser} from "../backend/backend";
 export default class AddUserView extends View {
     divName = "addUser"
     visibleInitially = false
+
     constructor() {
         super();
     }
@@ -11,22 +12,22 @@ export default class AddUserView extends View {
     updateView() {
         const me = this
         $(".addUserForm .add-user-button").click(
-            function addUserButton(event){
+            function addUserButton(event) {
 
                 console.log("add")
-                const parameter =$("#addUser :input").serializeArray()
-               let role;
+                const parameter = $("#addUser :input").serializeArray()
+                let role;
                 if (me.globalState?.user.isNonLogged()) {
-                     role = "userNormal"
-                }else {
-                     role = $("#addUser .role-select").val();
+                    role = "userNormal"
+                } else {
+                    role = $("#addUser .role-select").val();
                 }
 
                 const username = parameter[0].value
                 const password = parameter[1].value
-                console.log(parameter,role)
+                console.log(parameter, role)
 
-                addUser(username,password,role)
+                addUser(username, password, role)
             })
     }
 
@@ -44,7 +45,7 @@ export default class AddUserView extends View {
                 "    <option value='admin'>Admin</option>\n" +
                 "    <option value='userNormal'>Normal</option>\n" +
                 "  </select>\n" +
-                "</div>"+
+                "</div>" +
                 "  <div class='field is-grouped'>" +
                 "    <div class='control'>" +
                 "        <button type='button' class='add-user-button button is-link'>Add</button>" +
@@ -54,7 +55,7 @@ export default class AddUserView extends View {
                 "    </div>" +
                 "  </div>" +
                 "</div>");
-        }else {
+        } else {
             this.viewRoot.append(
                 "<div class='addUserForm' >" +
                 "  <label for='username'>username:</label><br>" +

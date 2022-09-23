@@ -1,6 +1,5 @@
 import TableView from "./tableView";
 import {addOrder} from "../backend/backend";
-import {Order} from "../model/order";
 
 export default class CartManagementView extends TableView {
 
@@ -11,7 +10,7 @@ export default class CartManagementView extends TableView {
     }
 
     async prepView() {
-        const  me = this
+        const me = this
         if (!me.initBoolean) {
             throw Error("View is not initialised.")
         } else {
@@ -21,8 +20,9 @@ export default class CartManagementView extends TableView {
 
         }
     }
+
     async prepViewInternal() {
-        const  me = this
+        const me = this
         if (!me.initBoolean) {
             throw Error("View is not initialised.")
         } else {
@@ -32,16 +32,17 @@ export default class CartManagementView extends TableView {
         }
     }
 
-    headers =["uniqueid","ProductId","userid","Price"]
+    headers = ["uniqueid", "ProductId", "userid", "Price"]
 
     data
 
     visibleInitially = false
+
     async insertInitialData() {
         const me = this
         const data = me.globalState.carts.getCarts()
         const dataPrep = data.map((r) => {
-            return [r.internalId,r.productId, r.userId, r.price]
+            return [r.internalId, r.productId, r.userId, r.price]
         })
         me.data = dataPrep
     }
@@ -49,14 +50,15 @@ export default class CartManagementView extends TableView {
     async reloadTable() {
         const me = this
         me.viewRoot.empty()
-        me.headers =["uniqueid","ProductId","userid","Price"]
+        me.headers = ["uniqueid", "ProductId", "userid", "Price"]
         me.prepView()
     }
+
     async reloadInternalTable() {
         const me = this
         me.viewRoot.empty()
-        me.headers = ["uniqueid","ProductId","userid","Price"]
-        me.prepViewInternal()
+        me.headers = ["uniqueid", "ProductId", "userid", "Price"]
+        await me.prepViewInternal()
     }
 
     updateView() {
@@ -67,20 +69,18 @@ export default class CartManagementView extends TableView {
         $('#cartManagement .buying-button').on("click", function (event) {
             console.log("buying")
             const data = me.globalState.carts.getCarts()
-            const dataPrep = data.map((r) => {
-                return addOrder({productId:r.productId, userId:r.userId})
-            })
-
-
+            data.map((r) => {
+                return addOrder({productId: r.productId, userId: r.userId})
+            });
         })
-        $('.cart-view').on("click", function (event) {
+        $('.cart-view').on("click", async function (event) {
 
             const data = me.globalState.carts.getCarts()
             const dataPrep = data.map((r) => {
-                return [r.internalId,r.productId, r.userId, r.price]
+                return [r.internalId, r.productId, r.userId, r.price]
             })
             me.data = dataPrep
-            me.reloadInternalTable()
+            await me.reloadInternalTable()
         })
     }
 
@@ -95,7 +95,6 @@ export default class CartManagementView extends TableView {
         me.globalState.carts.removeFromCarts(id)
         await me.reloadTable()
     }
-
 
 
 }

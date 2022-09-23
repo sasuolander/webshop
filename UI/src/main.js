@@ -11,30 +11,41 @@ import UserManagementViewClass from "./view/userManagementView";
 import OrderManagementViewClass from "./view/orderManagementView";
 import CartManagementViewClass from "./view/cartManagementView";
 import EventBus from "./EventBus";
+
 export const urlBase = "http://127.0.0.1:3000/";
 
 export const state = new GlobalStateClass()
 export const eventbus = new EventBus("buss")
-const {AddUser,AddProduct,ProductManagementView,LoginView,ShopView,MainMenu,UserManagementView,OrderManagementView,CartManagement} = {
-    AddUser:new AddUserClass(),
-    AddProduct:new AddProductClass(),
-    ProductManagementView:new ProductManagementViewClass(),
-    LoginView:new LoginViewClass(),
-    ShopView:new ShopViewClass,
-    MainMenu:new MainMenuBarClass(),
-    UserManagementView : new UserManagementViewClass(),
-    OrderManagementView : new OrderManagementViewClass(),
+const {
+    AddUser,
+    AddProduct,
+    ProductManagementView,
+    LoginView,
+    ShopView,
+    MainMenu,
+    UserManagementView,
+    OrderManagementView,
+    CartManagement
+} = {
+    AddUser: new AddUserClass(),
+    AddProduct: new AddProductClass(),
+    ProductManagementView: new ProductManagementViewClass(),
+    LoginView: new LoginViewClass(),
+    ShopView: new ShopViewClass,
+    MainMenu: new MainMenuBarClass(),
+    UserManagementView: new UserManagementViewClass(),
+    OrderManagementView: new OrderManagementViewClass(),
     CartManagement: new CartManagementViewClass()
 }
 
 
-eventbus.on("reloadPage", function ({ detail }) {
+eventbus.on("reloadPage", function ({detail}) {
     $("#root").empty()
     start()
 })
 
 
-function start(){
+function start() {
     $("#root")
         .append(MainMenu.renderRoot())
         .append("<div id='container'></div>")
@@ -56,6 +67,7 @@ function start(){
     AddProduct.init(state)
     CartManagement.init(state)
 }
+
 start()
 
 

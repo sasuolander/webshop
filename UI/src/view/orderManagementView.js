@@ -3,19 +3,19 @@ import {deleteOrder, getOrders, getOrdersByUserId, updateOrder} from "../backend
 
 export default class OrderManagementView extends TableView {
 
-   admin = false
+    admin = false
 
     constructor() {
         super();
-         if (this.globalState?.user[0].role.role === "admin"){
-             this.admin = true
-         }
+        if (this.globalState?.user[0].role.role === "admin") {
+            this.admin = true
+        }
         this.divName = "orderManagement"
         this.tableId = `table-${this.divName}`
     }
 
 
-    headers = ["Id","productId", "UserId"]
+    headers = ["Id", "productId", "UserId"]
 
     data
 
@@ -35,7 +35,7 @@ export default class OrderManagementView extends TableView {
     async insertInitialData() {
         const me = this
         const data = await me.filter(me)
-        if ( typeof  data.data.length !=="undefined"){
+        if (typeof data.data.length !== "undefined") {
             me.data = data?.data.map((r) => {
                 return [r.id, r.productId, r.userId]
             })
@@ -46,14 +46,14 @@ export default class OrderManagementView extends TableView {
     async reloadTable() {
         const me = this
         me.viewRoot.empty()
-        me.headers = ["Id","productId", "UserId"]
+        me.headers = ["Id", "productId", "UserId"]
         me.prepView()
     }
 
     async reloadInternalTable() {
         const me = this
         me.viewRoot.empty()
-        me.headers = ["Id","productId", "UserId"]
+        me.headers = ["Id", "productId", "UserId"]
         await me.prepViewInternal()
     }
 
@@ -62,7 +62,7 @@ export default class OrderManagementView extends TableView {
         const me = this
         $('.order-view').on("click", async function (event) {
             const data = await me.filter(me)
-            if ( typeof  data.data.length !=="undefined"){
+            if (typeof data.data.length !== "undefined") {
                 me.data = data?.data.map((r) => {
                     return [r.id, r.productId, r.userId]
                 })
@@ -72,7 +72,7 @@ export default class OrderManagementView extends TableView {
     }
 
     async prepViewInternal() {
-        const  me = this
+        const me = this
         if (!me.initBoolean) {
             throw Error("View is not initialised.")
         } else {
@@ -89,7 +89,7 @@ export default class OrderManagementView extends TableView {
             const id = parseInt($(`.${this.tableId} .column-id-${rowId}`).text())
             const productid = parseInt($(`.${this.tableId} .column-productid-${rowId}`).text())
             const userid = parseInt($(`.${this.tableId} .column-userid-${rowId}`).text())
-            updateOrder(id,productid,userid)
+            updateOrder(id, productid, userid)
             await me.reloadTable()
         }
 

@@ -8,11 +8,13 @@ export default class View {
     visibleInitially = true
     initBoolean = false
 
-    constructor() {}
+    constructor() {
+    }
 
-    insertInitialData(){}
+    insertInitialData() {
+    }
 
-    init(state){
+    init(state) {
         this.viewRoot = $(`#${this.divName}`)
         this.globalState = state
         this.initBoolean = true
@@ -20,26 +22,26 @@ export default class View {
         return this
     }
 
-    renderRoot(){
-        if (this.visibleInitially){
+    renderRoot() {
+        if (this.visibleInitially) {
             return `<div id=${this.divName}><div>`
-        }else {
+        } else {
             return `<div id=${this.divName} style=\"display: none;\"><div>`
         }
 
     }
 
-    prepView(){
-        if (!this.initBoolean){
+    prepView() {
+        if (!this.initBoolean) {
             throw Error("View is not initialised.")
-        }else {
+        } else {
             this.insertView();
             this.updateView();
         }
     }
 
     async prepViewInternal() {
-        const  me = this
+        const me = this
         if (!me.initBoolean) {
             throw Error("View is not initialised.")
         } else {
@@ -50,13 +52,14 @@ export default class View {
     }
 
     reloadView() {
+        // insert your reloadView logic
     }
 
-    insertView () {
+    insertView() {
         // insert your view
     }
 
-    updateView(){
+    updateView() {
         // insert your business logic or dom manipulation
     }
 }

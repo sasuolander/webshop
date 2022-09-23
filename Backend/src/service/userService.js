@@ -26,7 +26,6 @@ exports.deleteUserById = function (id) {
     });
 }
 
-
 exports.getUserByName = function (username) {
     return dao.findByUsername(username).then(r => {
         return r
@@ -50,13 +49,12 @@ exports.authenticate = async function (username, password) {
             console.log(err)
         });
         console.log(user)
-        user =user[0]._doc
-        const passwordtest =await bcrypt.compare(password, user.password)
-        if(!!(user && passwordtest)){
-            return new UserClass().createUser(user.id,user.username,new Role(user.role))
+        user = user[0]._doc
+        const passwordtest = await bcrypt.compare(password, user.password)
+        if (!!(user && passwordtest)) {
+            return new UserClass().createUser(user.id, user.username, new Role(user.role))
         }
     }
-
 }
 
 exports.updateUser = function (id, body) {

@@ -1,22 +1,24 @@
-module.exports  = class Role {
-    role= ""
+module.exports = class Role {
+    role = ""
+
     constructor(roleName) {
-        if (roleName === "admin"|| roleName === "userNormal" ||roleName === "nonLogged"){
+        if (roleName === "admin" || roleName === "userNormal" || roleName === "nonLogged") {
             this.role = roleName;
-        } else if(typeof roleName=== "undefined") {
-          //  console.debug("undefined")
+        } else if (typeof roleName === "undefined") {
+            //  console.debug("undefined")
         } else {
             console.log(roleName)
             throw Error("Not valid user role")
         }
     }
-    isAdmin = function (){
+
+    isAdmin = function () {
         return this.role === "admin";
     }
-    isUser = function (){
+    isUser = function () {
         return this.role === "userNormal";
     }
-    isNonLogged = function (){
+    isNonLogged = function () {
         return this.role === "nonLogged";
     }
 }

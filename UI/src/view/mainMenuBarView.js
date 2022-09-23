@@ -3,12 +3,14 @@ import getCookie, {eraseCookie} from "../getCookie";
 import {eventbus, state} from "../main";
 import {User} from "../model/user";
 import {Role} from "../model/role";
+
 export default class MainMenuBarView extends View {
     DEV = false
+
     constructor() {
         super();
         const me = this
-        eventbus.on("reloadBar", function ({ detail }) {
+        eventbus.on("reloadBar", function ({detail}) {
             me.viewRoot.empty()
             me.prepView()
         })
@@ -17,17 +19,17 @@ export default class MainMenuBarView extends View {
     divName = "mainmenu"
 
     updateView() {
-        const  me = this
+        const me = this
+
         function hideOrShow(page) {
             if (page.css('display') === 'none' || page.css("visibility") === "hidden") {
                 page.show();
-            }
-            else {
+            } else {
                 page.hide();
             }
         }
 
-        function hideOther(){
+        function hideOther() {
             hideOrShow($('#shopView'))
             hideOrShow($('#userManagementView'))
             hideOrShow($('#addUser'))
@@ -63,20 +65,20 @@ export default class MainMenuBarView extends View {
             hideOrShow($('#cartManagement'))
         })
         $('.logout-view').on("click", function (event) {
-            me.globalState.user = new User("nonlogged","",new Role("nonLogged"))
+            me.globalState.user = new User("nonlogged", "", new Role("nonLogged"))
             state.login = false
             eraseCookie("login")
             eraseCookie("token")
-            eventbus.emit("reloadPage",{})
+            eventbus.emit("reloadPage", {})
         })
 
         super.updateView();
     }
 
-    insertView(){
+    insertView() {
         const cookies = getCookie("login")
 
-        if(this.DEV){
+        if (this.DEV) {
             this.viewRoot.append("<nav class='navbar' role='navigation' aria-label='main navigation'>" +
                 "  <div class='navbar-brand'>" +
                 "    <a class='navbar-item shop-view' >Shop</a>" +
@@ -90,15 +92,15 @@ export default class MainMenuBarView extends View {
                 "    <a class=\"navbar-item logout-view\">Log out</a>" +
                 "  </div>" +
                 "</nav>");
-        }else {
-            if(this.globalState.user.isNonLogged()){
+        } else {
+            if (this.globalState.user.isNonLogged()) {
                 this.viewRoot.append("<nav class='navbar' role='navigation' aria-label='main navigation'>" +
                     "  <div class='navbar-brand'>" +
                     "    <a class=\"navbar-item login-view \" onclick=''>Login</a>" +
                     "    <a class=\"navbar-item useradd-view \" onclick=''>Add User</a>" +
                     "  </div>" +
                     "</nav>");
-            }else if (this.globalState.user.isUser() && cookies) {
+            } else if (this.globalState.user.isUser() && cookies) {
                 this.viewRoot.append("<nav class='navbar' role='navigation' aria-label='main navigation'>" +
                     "  <div class='navbar-brand'>" +
                     "    <a class='navbar-item shop-view' onclick=''>Shop</a>" +
@@ -123,7 +125,5 @@ export default class MainMenuBarView extends View {
                     "</nav>");
             }
         }
-
-
     }
 }

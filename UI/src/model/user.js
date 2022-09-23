@@ -4,24 +4,26 @@ export class User {
     password = "";
     role
 
-    constructor(username,password,role) {
+    constructor(username, password, role) {
         this.username = username
         this.password = password // this is security risk, do not save password
         this.role = role
     }
-    createUser(id,username,role) {
-        this.id=id
+
+    createUser(id, username, role) {
+        this.id = id
         this.username = username
         this.role = role
         return this
     }
-    isAdmin = function (){
+
+    isAdmin = function () {
         return this.role.role === "admin";
     }
-    isUser = function (){
+    isUser = function () {
         return this.role.role === "userNormal";
     }
-    isNonLogged = function (){
+    isNonLogged = function () {
         return this.role.role === "nonLogged";
     }
 

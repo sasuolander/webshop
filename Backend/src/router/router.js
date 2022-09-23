@@ -1,18 +1,20 @@
+module.exports = class Router {
+    static routes = []
 
-module.exports = class Router  {
-   static routes = []
+    static get(path, callback) {
+        this.routes.push({url: "/" + path, callback: callback, method: "GET"})
+    }
 
-    static get (path,callback) {
-        this.routes.push({url:"/"+path,callback:callback,method:"GET"})
+    static post(path, callback) {
+        this.routes.push({url: "/" + path, callback: callback, method: "POST"})
     }
-    static  post (path,callback) {
-        this.routes.push({url:"/"+path,callback:callback,method:"POST"})
+
+    static update(path, callback) {
+        this.routes.push({url: "/" + path, callback: callback, method: "UPDATE"})
     }
-    static update (path,callback) {
-        this.routes.push({url:"/"+path,callback:callback,method:"UPDATE"})
-    }
-    static delete (path,callback) {
-        this.routes.push({url:"/"+path,callback:callback,method:"DELETE"})
+
+    static delete(path, callback) {
+        this.routes.push({url: "/" + path, callback: callback, method: "DELETE"})
     }
 
     async parser(req) {
@@ -23,7 +25,7 @@ module.exports = class Router  {
         const data = Buffer.concat(buffers).toString();
         if (data.length !== 0) {
             try {
-                console.log("rawData",data)
+                console.log("rawData", data)
                 req.body = JSON.parse(data);
                 console.log("body parsed", JSON.parse(data));
             } catch (e) {
@@ -37,13 +39,14 @@ module.exports = class Router  {
             await this.parser(req)
             const {authenticate} = require("../middleware/authentication")
             authenticate(req, res).then(async function (r) {
-                if(r && typeof r !== 'undefined' )
-                    await callback(req, res)
+                    if (r && typeof r !== 'undefined')
+                        await callback(req, res)
                 }
             ).catch(t => console.log(t))
 
         }
     }
+
     async requestValidatorLogin(req, res, callback) {
         if (typeof req !== 'undefined' || typeof res !== 'undefined') {
             await this.parser(req)
@@ -51,15 +54,9 @@ module.exports = class Router  {
         }
     }
 
-
-
     main = async function (req, res) {
 
         const me = this
-
-       //const item =  me.requestValidator(req, res)
-      //  const stateResponse = await authenticate(item.req,item.res)
-
 
         res.setHeader("Content-Type", "application/json");
 
@@ -67,7 +64,7 @@ module.exports = class Router  {
             throw Error("Empty routes table")
 
 
-        if (req.url ==="/login" ||  req.url ==="/user" && req.method === "POST" ){
+        if (req.url === "/login" || req.url === "/user" && req.method === "POST") {
             const routeFound = Router.routes.find(function (route) {
                 return route.url === req.url && route.method === req.method
             })
@@ -77,7 +74,7 @@ module.exports = class Router  {
             if (typeof routeFound.callback === "function") {
                 await me.requestValidatorLogin(req, res, routeFound.callback)
             }
-            }else {
+        } else {
 
             const routeFound = Router.routes.find(function (route) {
                 return route.url === req.url && route.method === req.method
@@ -95,12 +92,6 @@ module.exports = class Router  {
             } else {
                 console.log("Did not find endpoint: " + req.url)
             }
-            }
-
-
-
-
-
-
+        }
     }
 };

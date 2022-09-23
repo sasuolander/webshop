@@ -8,14 +8,14 @@ export default class AddProductView extends View {
 
     updateView() {
         $(".addProductView .add-product-button").click(
-            function addUserButton(event){
-                const parameter =$("#addProductView :input").serializeArray()
+            function addUserButton(event) {
+                const parameter = $("#addProductView :input").serializeArray()
 
                 const name = parameter[0].value
                 const price = parameter[1].value
                 const additionalInfo = parameter[2].value
 
-                addProduct(name,additionalInfo,price)
+                addProduct(name, additionalInfo, price)
             })
     }
 

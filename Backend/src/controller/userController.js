@@ -11,27 +11,29 @@ module.exports = function register() {
 Router.get("user", async function getUser(req, res) {
     const body = req.body.username;
     const response = await UserService.getUserByName(body)
-    res.writeHead(200,headersCors)
-    res.end(JSON.stringify(new UserClass().createUser(response.id,response.username,new Role(response.role))));
+    res.writeHead(200, headersCors)
+    res.end(JSON.stringify(new UserClass().createUser(response.id, response.username, new Role(response.role))));
 })
 
 Router.get("users", async function getUser(req, res) {
     const response = await UserService.getUsers()
-    res.writeHead(200,headersCors)
-    res.end(JSON.stringify(response.map(r=>{return new UserClass().createUser(r.id,r.username,new Role(r.role))})));
+    res.writeHead(200, headersCors)
+    res.end(JSON.stringify(response.map(r => {
+        return new UserClass().createUser(r.id, r.username, new Role(r.role))
+    })));
 })
 
 Router.post("user", async function addUser(req, res) {
     const body = req.body;
     const found = await UserService.getUserByName(body.username)
-    if (found.length<=0) {
+    if (found.length <= 0) {
         const saved = await UserService.createUser(body)
         const data = saved._doc
-        res.writeHead(200,headersCors)
-        res.end(JSON.stringify(new UserClass().createUser(data.id,data.username,new Role(data.role))));
-    }else  {
-        res.writeHead(500,headersCors)
-        res.end(JSON.stringify({message:"username is already in used"}));
+        res.writeHead(200, headersCors)
+        res.end(JSON.stringify(new UserClass().createUser(data.id, data.username, new Role(data.role))));
+    } else {
+        res.writeHead(500, headersCors)
+        res.end(JSON.stringify({message: "username is already in used"}));
     }
 })
 
@@ -39,15 +41,15 @@ Router.delete("user", async function deleteUser(req, res) {
     const body = req.body;
     console.log(body)
     const response = await UserService.deleteUserById(body)
-    res.writeHead(200,headersCors)
-    res.end(JSON.stringify(new UserClass().createUser(response.id,response.username,new Role(response.role))));
+    res.writeHead(200, headersCors)
+    res.end(JSON.stringify(new UserClass().createUser(response.id, response.username, new Role(response.role))));
 })
 
 Router.post("user/update", async function update(req, res) {
     const body = req.body;
     const response = await UserService.updateUser(body.id, body)
-    res.writeHead(200,headersCors)
-    res.end(JSON.stringify(new UserClass().createUser(response.id,response.username,new Role(response.role))));
+    res.writeHead(200, headersCors)
+    res.end(JSON.stringify(new UserClass().createUser(response.id, response.username, new Role(response.role))));
 })
 
 

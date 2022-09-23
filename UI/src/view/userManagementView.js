@@ -4,7 +4,7 @@ import {deleteUser, getUsers, updateUser} from "../backend/backend";
 export default class UserManagementView extends TableView {
     visibleInitially = false
 
-    constructor(getUsers) {
+    constructor() {
         super();
         this.divName = "userManagementView"
         this.tableId = `table-${this.divName}`
@@ -12,6 +12,7 @@ export default class UserManagementView extends TableView {
 
     headers = ["Id", "Name", "Role"]
     data
+
     async insertInitialData() {
         const me = this
         const data = await getUsers()
@@ -53,10 +54,10 @@ export default class UserManagementView extends TableView {
         const id = parseInt($(`.${this.tableId} .column-id-${rowId}`).text())
         const name = $(`.${this.tableId} .column-name-${rowId}`).text()
         const roleName = $(`.${this.tableId} .column-role-${rowId}`).text()
-        if (roleName === "admin"|| roleName === "userNormal" ||roleName === "nonLogged"){
-            updateUser(id,name,roleName)
+        if (roleName === "admin" || roleName === "userNormal" || roleName === "nonLogged") {
+            updateUser(id, name, roleName)
             await me.reloadTable()
-        } else if(typeof roleName=== "undefined") {
+        } else if (typeof roleName === "undefined") {
             console.debug("undefined")
         } else throw Error("Not valid user role")
     }

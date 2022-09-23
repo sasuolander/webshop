@@ -1,11 +1,6 @@
-// filter chain for every request or inject authentication check
-
-// setup token or cookie when authentication succeed
-
 const UserService = require("../service/userService");
 const {headersCors} = require("../headersCors");
 const jwt = require("jsonwebtoken");
-const {config} = require("dotenv");
 const {TokenExpiredError} = require("jsonwebtoken");
 
 module.exports.authenticate = async function (req, res) {
@@ -24,10 +19,10 @@ module.exports.authenticate = async function (req, res) {
         user = decoded;
     } catch (err) {
 
-        if ( err instanceof  TokenExpiredError){
+        if (err instanceof TokenExpiredError) {
             res.writeHead(401, headersCors).end(JSON.stringify({message: 'Invalid token'}));
             return;
-        }else {
+        } else {
             console.log(err)
             res.writeHead(401, headersCors).end(JSON.stringify({message: 'Invalid token'}));
             return;
@@ -46,33 +41,30 @@ module.exports.validateLogin = async function (req, res) {
     const authorizationHeader = req.headers.authorization
     console.log(authorizationHeader)
     if (!authorizationHeader || authorizationHeader.indexOf('Basic ') === -1) {
-        res.writeHead(401,headersCors).end(JSON.stringify({message: 'Missing Authorization Header'}));
+        res.writeHead(401, headersCors).end(JSON.stringify({message: 'Missing Authorization Header'}));
         return;
     }
 
-    // verify auth credentials
     const base64Credentials = authorizationHeader.split(' ')[1];
     const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
     const [username, password] = credentials.split(':');
 
     const user = await UserService.authenticate(username, password);
     if (!user) {
-        res.writeHead(401,headersCors).end(JSON.stringify({message: 'Invalid Authentication Credentials'}));
+        res.writeHead(401, headersCors).end(JSON.stringify({message: 'Invalid Authentication Credentials'}));
         return;
     }
-    // Create token
-    // save user token
+
     user.token = jwt.sign(
-        {user_id: user.id,username:user.username,role:user.role.role},
+        {user_id: user.id, username: user.username, role: user.role.role},
         process.env.TOKEN_KEY,
         {
             expiresIn: "2h",
         }
     );
 
-    // user
-    res.setHeader("Set-Cookie","login=true")
-    res.writeHead(200,headersCors)
-    return   res.end(JSON.stringify({id:user.id,username:user.username,role:user.role.role,token:user.token}))
+    res.setHeader("Set-Cookie", "login=true")
+    res.writeHead(200, headersCors)
+    return res.end(JSON.stringify({id: user.id, username: user.username, role: user.role.role, token: user.token}))
 
 }

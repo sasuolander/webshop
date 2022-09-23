@@ -1,4 +1,3 @@
-
 const dao = require("../dao/productDao");
 
 exports.createProduct = function (body) {

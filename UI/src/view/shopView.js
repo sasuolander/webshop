@@ -1,7 +1,6 @@
 import View from "./view";
 import $ from "jquery";
 import {getProducts} from "../backend/backend";
-import {v4 as uuidv4} from 'uuid';
 
 export default class ShopView extends View {
     state;
@@ -16,7 +15,7 @@ export default class ShopView extends View {
     product = []
 
     async prepView() {
-        const  me = this
+        const me = this
         if (!me.initBoolean) {
             throw Error("View is not initialised.")
         } else {
@@ -26,9 +25,9 @@ export default class ShopView extends View {
         }
     }
 
-    insertInitialData(){
-
+    insertInitialData() {
     }
+
     async updateView() {
         const me = this
 
@@ -73,7 +72,9 @@ export default class ShopView extends View {
 
         me.product = await getProducts()
 
-        me.product = me.product.data.map((r) => {return{productId:r.id,name:r.name,additionalInfo:r.additionalInfo,price:r.price}})
+        me.product = me.product.data.map((r) => {
+            return {productId: r.id, name: r.name, additionalInfo: r.additionalInfo, price: r.price}
+        })
         me.product.forEach(item => {
             item.userId = this.globalState?.user?.id
             item.url = "/something"

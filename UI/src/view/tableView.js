@@ -1,17 +1,15 @@
 import View from "./view";
 
 export default class TableView extends View {
-
-  //  https://code-boxx.com/editable-html-table/
-
     constructor() {
         super();
     }
+
     headers = []
-    data= []
+    data = []
 
     async prepView() {
-        const  me = this
+        const me = this
         if (!me.initBoolean) {
             throw Error("View is not initialised.")
         } else {
@@ -21,13 +19,17 @@ export default class TableView extends View {
         }
     }
 
-    reloadTable() {}
+    reloadTable() {
+    }
 
-    insertInitialData(){}
+    insertInitialData() {
+    }
 
-    update(event,rowId){}
+    update(event, rowId) {
+    }
 
-    delete(event,rowId){}
+    delete(event, rowId) {
+    }
 
     async updateView() {
         const me = this
@@ -55,21 +57,20 @@ export default class TableView extends View {
         me.headers.push("Delete")
 
 
-
         me.data?.map(function (element) {
-            if(typeof element !== "undefined" && element !== null){
-                if (element.toString().match(/Update/g) == null || element.toString().match(/Update/g).length===0){
-                    if (element.toString().match(/Update/g) !== null && element.toString().match(/Update/g).length===0){
+            if (typeof element !== "undefined" && element !== null) {
+                if (element.toString().match(/Update/g) == null) {
+                    if (element.toString().match(/Update/g) !== null && element.toString().match(/Update/g).length === 0) {
                         element.push("Update")
-                    }else {
+                    } else {
                         element.push("Update")
                     }
 
                 }
-                if (element.toString().match(/Delete/g)== null){
-                    if (element.toString().match(/Delete/g) !== null && element.toString().match(/Delete/g).length===0){
+                if (element.toString().match(/Delete/g) == null) {
+                    if (element.toString().match(/Delete/g) !== null && element.toString().match(/Delete/g).length === 0) {
                         element.push("Delete")
-                    }else {
+                    } else {
                         element.push("Delete")
                     }
 
@@ -82,7 +83,7 @@ export default class TableView extends View {
             $(`${classTable} .data-header-tr`).append(headerTemplate(value))
         })
 
-        if(typeof me.data !== "undefined"){
+        if (typeof me.data !== "undefined") {
             for (let i = 0; i < me.data.length; i++) {
                 $(`${classTable} .data-body`).append(dataRow(i))
                 for (let j = 0; j < me.data[i].length; j++) {
@@ -111,8 +112,6 @@ export default class TableView extends View {
                 }
             }
         }
-
-
     }
 
     insertView() {
@@ -120,6 +119,6 @@ export default class TableView extends View {
             `<table class=\"${this.tableId} table table-striped\">` +
             `<thead class='${this.tableId} data-header'><tr class='${this.tableId} data-header-tr'> </tr></thead>` +
             `<tbody class='${this.tableId} data-body' ></tbody>` +
-            "          </table>"+"<div id ='tableEndButton' ></div>");
+            "</table>" + "<div id ='tableEndButton' ></div>");
     }
 }

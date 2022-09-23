@@ -2,7 +2,7 @@ export default function getCookie(cname) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
     let ca = decodedCookie.split(';');
-    for(const element of ca) {
+    for (const element of ca) {
         let c = element;
         while (c.charAt(0) == ' ') {
             c = c.substring(1);
@@ -15,5 +15,5 @@ export default function getCookie(cname) {
 }
 
 export function eraseCookie(name) {
-    document.cookie = name+'=; Max-Age=-99999999;';
+    document.cookie = name + '=; Max-Age=-99999999;';
 }

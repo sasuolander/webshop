@@ -1,4 +1,4 @@
-import {eventbus, state, urlBase} from "../main";
+import {urlBase} from "../main";
 import {User} from "../model/user";
 import {Product} from "../model/product";
 import {Role} from "../model/role";
@@ -125,12 +125,12 @@ export function deleteProduct(id) {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
             'x-access-token': getCookie("token"),
-        },data: id
+        }, data: id
     }).then(r => r)
 }
 
 export function getOrdersByUserId(id) {
-    return insertRequest(urlBase + "ordersByUserId",id, {
+    return insertRequest(urlBase + "ordersByUserId", id, {
         headers: {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
@@ -156,7 +156,7 @@ export function deleteOrder(id) {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
             'x-access-token': getCookie("token"),
-        },data: id
+        }, data: id
     }).then(r => r)
 }
 

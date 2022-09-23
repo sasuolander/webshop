@@ -5,7 +5,7 @@ const Product = require("../model/product");
  * @param param
  */
 exports.save = function (paramInput) {
-    const param = paramInput || new Product({id: 0, name: "", price: 0,additionalInfo:"" })
+    const param = paramInput || new Product({id: 0, name: "", price: 0, additionalInfo: ""})
     if (param !== undefined) {
         return new ProductModel({
             name: param.name,
@@ -28,13 +28,13 @@ exports.findAll = function () {
  */
 
 exports.update = async function (id, paramInput) {
-    const param = paramInput || new Product({id: 0, name: "", price: 0,additionalInfo:""})
+    const param = paramInput || new Product({id: 0, name: "", price: 0, additionalInfo: ""})
     console.log(param)
     return ProductModel.findOneAndUpdate({id: id}, {
         $set: {
             name: param.name,
             price: param.price,
-            additionalInfo:param.additionalInfo
+            additionalInfo: param.additionalInfo
         }
     }, {
         upsert: true

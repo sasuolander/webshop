@@ -4,7 +4,7 @@ export class Product {
     additionalInfo = "";
     price = 0;
 
-    constructor(id,name,additionalInfo,price){
+    constructor(id, name, additionalInfo, price) {
         this.id = id;
         this.name = name;
         this.additionalInfo = additionalInfo;

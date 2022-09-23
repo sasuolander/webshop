@@ -16,16 +16,16 @@ export default class LoginView extends View {
     updateView() {
         const me = this
         $("#button-login").click(
-            function (event){
-                const parameter =$("#loginView :input").serializeArray()
+            function (event) {
+                const parameter = $("#loginView :input").serializeArray()
                 const username = parameter[0].value
                 const password = parameter[1].value
-                loginBasic(username,password).then(r  =>{
-                    document.cookie="login=true"
-                    document.cookie=`token=${r.data.token}`
+                loginBasic(username, password).then(r => {
+                    document.cookie = "login=true"
+                    document.cookie = `token=${r.data.token}`
                     me.globalState.login = true
-                    me.globalState.user = new User().createUser(r.data.id,r.data.username, new Role(r.data.role))
-                    eventbus.emit("reloadPage",{})
+                    me.globalState.user = new User().createUser(r.data.id, r.data.username, new Role(r.data.role))
+                    eventbus.emit("reloadPage", {})
                 })
             })
     }
@@ -44,5 +44,4 @@ export default class LoginView extends View {
             "  </div>" +
             "</div>");
     }
-
 }

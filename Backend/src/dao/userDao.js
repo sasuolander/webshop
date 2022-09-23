@@ -24,11 +24,11 @@ exports.save = async function (paramInput) {
  */
 
 exports.update = function (id, paramInput) {
-    const param = paramInput || new User({id: 0, username: "", password: "",role:{}})
+    const param = paramInput || new User({id: 0, username: "", password: "", role: {}})
     return UserModel.findOneAndUpdate({id: id}, {
         $set: {
             username: param.username,
-            role:param.role.role
+            role: param.role.role
         }
     }, {
         upsert: true

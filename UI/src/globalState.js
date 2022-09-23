@@ -1,24 +1,21 @@
-// global state for application, inject into every component or rerieve it from globally,
-// event buss ?
-
-
 import {Role} from "./model/role";
 import {User} from "./model/user";
 
 class Carts {
     carts = []
 
-    getCarts(){
+    getCarts() {
         return this.carts
     }
-    addToCarts(item){
-        if(typeof item !== "undefined"){
-             const buided = {
-                 internalId:window.crypto.randomUUID(),
-                 productId:item.productId,
-                 userId:item.userId,
-                 price:item.price,
-             }
+
+    addToCarts(item) {
+        if (typeof item !== "undefined") {
+            const buided = {
+                internalId: window.crypto.randomUUID(),
+                productId: item.productId,
+                userId: item.userId,
+                price: item.price,
+            }
             this.carts.push(buided)
         }
         console.log(this.carts)
@@ -34,13 +31,13 @@ class Carts {
     }
 }
 
-
 export default class GlobalState {
 
     carts = new Carts()
-    user = new User("nonlogged","",new Role("nonLogged"))
+    user = new User("nonlogged", "", new Role("nonLogged"))
     login = false
 
-    constructor(ars) {}
+    constructor(ars) {
+    }
 
 }

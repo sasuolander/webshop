@@ -9,11 +9,12 @@ export default class ProductManagementView extends TableView {
     }
 
 
-    headers =["Id","Name","Price","Additional Info"]
+    headers = ["Id", "Name", "Price", "Additional Info"]
 
     data
 
     visibleInitially = false
+
     async insertInitialData() {
         const me = this
         const data = await getProducts()
@@ -21,17 +22,18 @@ export default class ProductManagementView extends TableView {
             return [r.id, r.name, r.price, r.additionalInfo]
         })
     }
+
     async reloadInternalTable() {
         const me = this
         me.viewRoot.empty()
-        me.headers = ["Id","Name","Price","Additional-Info"]
+        me.headers = ["Id", "Name", "Price", "Additional-Info"]
         await me.prepViewInternal()
     }
 
     async reloadTable() {
         const me = this
         me.viewRoot.empty()
-        me.headers = ["Id","Name","Price","Additional-Info"]
+        me.headers = ["Id", "Name", "Price", "Additional-Info"]
         me.prepView()
     }
 
@@ -39,12 +41,12 @@ export default class ProductManagementView extends TableView {
         super.updateView()
         const me = this
         $('.admin-view').on("click", async function (event) {
- console.log('.admin-view')
+            console.log('.admin-view')
             const data = await getProducts()
             me.data = data.data.map((r) => {
-                return [r.id, r.name, r.price,r.additionalInfo]
+                return [r.id, r.name, r.price, r.additionalInfo]
             })
-            me.reloadInternalTable()
+            await me.reloadInternalTable()
         })
     }
 
@@ -55,7 +57,7 @@ export default class ProductManagementView extends TableView {
         const name = $(`.${this.tableId} .column-name-${rowId}`).text()
         const price = $(`.${this.tableId} .column-price-${rowId}`).text()
         const additionalInfo = $(`.${this.tableId} .column-additional-info-${rowId}`).text()
-        await updateProduct(id,name,additionalInfo,price)
+        await updateProduct(id, name, additionalInfo, price)
         await me.reloadTable()
     }
 
@@ -67,7 +69,5 @@ export default class ProductManagementView extends TableView {
         deleteProduct(id)
         await me.reloadTable()
     }
-
-
 
 }
