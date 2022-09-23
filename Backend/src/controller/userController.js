@@ -39,7 +39,6 @@ Router.post("user", async function addUser(req, res) {
 
 Router.delete("user", async function deleteUser(req, res) {
     const body = req.body;
-    console.log(body)
     const response = await UserService.deleteUserById(body)
     res.writeHead(200, headersCors)
     res.end(JSON.stringify(new UserClass().createUser(response.id, response.username, new Role(response.role))));

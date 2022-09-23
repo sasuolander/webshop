@@ -18,13 +18,9 @@ class Carts {
             }
             this.carts.push(buided)
         }
-        console.log(this.carts)
     }
 
     removeFromCarts(productID) {
-        console.log(this.carts.filter(function (item) {
-            return item.internalId !== productID
-        }))
         this.carts = this.carts.filter(function (item) {
             return item.internalId !== productID
         })

@@ -24,10 +24,7 @@ export default class OrderManagementView extends TableView {
         if (this.globalState?.user.isAdmin()) {
             return getOrders()
         } else {
-            console.log(this.globalState?.user?.id)
-            const data = getOrdersByUserId(this.globalState?.user?.id)
-            console.log(data)
-            return data
+            return getOrdersByUserId(this.globalState?.user?.id)
         }
     }
 
@@ -98,7 +95,6 @@ export default class OrderManagementView extends TableView {
         const me = this
         super.delete(event, rowId);
         const id = parseInt($(`.${this.tableId} .column-id-${rowId}`).text())
-        console.log(id)
         deleteOrder(id)
         await me.reloadTable()
     }

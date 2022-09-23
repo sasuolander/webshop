@@ -65,7 +65,6 @@ export default class UserManagementView extends TableView {
         const me = this
         super.delete(event, rowId);
         const id = parseInt($(`.${this.tableId} .column-id-${rowId}`).text())
-        console.log(id)
         deleteUser(id)
         await me.reloadTable()
     }

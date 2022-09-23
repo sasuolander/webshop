@@ -6,7 +6,6 @@ module.exports = function register() {
 }
 
 Router.get("login", async function loginUser(req, res) {
-    console.log("login method")
     return validateLogin(req, res);
 })
 Router.get("logout", async function loginUser(req, res) {

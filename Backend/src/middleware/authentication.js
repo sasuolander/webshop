@@ -5,8 +5,6 @@ const {TokenExpiredError} = require("jsonwebtoken");
 
 module.exports.authenticate = async function (req, res) {
     let user
-    console.log("authenticate")
-
     const token = req.headers["x-access-token"];
 
     if (!token) {
@@ -15,7 +13,6 @@ module.exports.authenticate = async function (req, res) {
     }
     try {
         const decoded = jwt.verify(token, process.env.TOKEN_KEY);
-        console.log("decoded", decoded)
         user = decoded;
     } catch (err) {
 
@@ -28,16 +25,13 @@ module.exports.authenticate = async function (req, res) {
             return;
         }
 
-
     }
 
-    console.log("decoded", user)
     req.user = user
     return true
 }
 
 module.exports.validateLogin = async function (req, res) {
-    console.log("validateLogin")
     const authorizationHeader = req.headers.authorization
     console.log(authorizationHeader)
     if (!authorizationHeader || authorizationHeader.indexOf('Basic ') === -1) {

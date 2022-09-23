@@ -25,9 +25,7 @@ module.exports = class Router {
         const data = Buffer.concat(buffers).toString();
         if (data.length !== 0) {
             try {
-                console.log("rawData", data)
                 req.body = JSON.parse(data);
-                console.log("body parsed", JSON.parse(data));
             } catch (e) {
                 console.error("invalid json")
             }
@@ -69,8 +67,6 @@ module.exports = class Router {
                 return route.url === req.url && route.method === req.method
             })
 
-            console.log(req.url, req.method)
-            console.log(routeFound)
             if (typeof routeFound.callback === "function") {
                 await me.requestValidatorLogin(req, res, routeFound.callback)
             }
@@ -79,9 +75,6 @@ module.exports = class Router {
             const routeFound = Router.routes.find(function (route) {
                 return route.url === req.url && route.method === req.method
             })
-
-            console.log(req.url, req.method)
-            console.log(routeFound)
 
             if (typeof routeFound !== "undefined") {
                 if (typeof routeFound.callback === "function") {

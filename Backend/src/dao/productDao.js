@@ -29,7 +29,6 @@ exports.findAll = function () {
 
 exports.update = async function (id, paramInput) {
     const param = paramInput || new Product({id: 0, name: "", price: 0, additionalInfo: ""})
-    console.log(param)
     return ProductModel.findOneAndUpdate({id: id}, {
         $set: {
             name: param.name,

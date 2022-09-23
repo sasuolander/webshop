@@ -90,14 +90,12 @@ export default class TableView extends View {
                         $(`${classTable} .data-row-${i}`).append(updateRowElement(element, i))
 
                         $(`${classTable} .update-row-${i}`).on("click", function (event) {
-                            console.log("update")
                             me.update(event, i)
                         })
 
                     } else if (element === "Delete") {
                         $(`${classTable} .data-row-${i}`).append(deleteRowElement(element, i))
                         $(`${classTable} .delete-row-${i}`).on("click", function (event) {
-                            console.log("delete")
                             me.delete(event, i)
                         })
 

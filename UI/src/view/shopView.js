@@ -93,15 +93,11 @@ export default class ShopView extends View {
         )
         $(".tile .is-paren .additional-info").on("click", function (event) {
                 const id = event.currentTarget.dataset.id
-                console.log(id)
-                console.log("modal", `additional-info-modal-${id}`)
                 $(`.additional-info-modal-${id}`).addClass("is-active")
             }
         )
         $(".tile .is-paren .modal-close").on("click", function (event) {
                 const id = event.currentTarget.dataset.id
-                console.log(id)
-                console.log("modal", `additional-info-modal-${id}`)
                 $(`.additional-info-modal-${id}`).removeClass("is-active")
             }
         )

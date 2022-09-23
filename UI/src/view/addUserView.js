@@ -13,8 +13,6 @@ export default class AddUserView extends View {
         const me = this
         $(".addUserForm .add-user-button").click(
             function addUserButton(event) {
-
-                console.log("add")
                 const parameter = $("#addUser :input").serializeArray()
                 let role;
                 if (me.globalState?.user.isNonLogged()) {
@@ -22,11 +20,8 @@ export default class AddUserView extends View {
                 } else {
                     role = $("#addUser .role-select").val();
                 }
-
                 const username = parameter[0].value
                 const password = parameter[1].value
-                console.log(parameter, role)
-
                 addUser(username, password, role)
             })
     }

@@ -34,7 +34,6 @@ Router.post("order", async function add(req, res) {
 // id in payload
 Router.delete("order", async function deleteProduct(req, res) {
     const body = req.body;
-    console.log("delete", body)
     const r = await OrderService.deleteOrder(body)
     res.writeHead(200, headersCors)
     res.end(JSON.stringify(new OrderClass(r.id, r.userId, r.productId)));

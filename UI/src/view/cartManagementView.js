@@ -67,7 +67,6 @@ export default class CartManagementView extends TableView {
         $('#cartManagement #tableEndButton').append("<div><button type='button' class='buying-button button is-link'>Buying</button></div>")
 
         $('#cartManagement .buying-button').on("click", function (event) {
-            console.log("buying")
             const data = me.globalState.carts.getCarts()
             data.map((r) => {
                 return addOrder({productId: r.productId, userId: r.userId})
@@ -76,10 +75,9 @@ export default class CartManagementView extends TableView {
         $('.cart-view').on("click", async function (event) {
 
             const data = me.globalState.carts.getCarts()
-            const dataPrep = data.map((r) => {
+            me.data = data.map((r) => {
                 return [r.internalId, r.productId, r.userId, r.price]
             })
-            me.data = dataPrep
             await me.reloadInternalTable()
         })
     }
@@ -88,7 +86,6 @@ export default class CartManagementView extends TableView {
         const me = this
         super.delete(event, rowId);
         const id = $(`.${this.tableId} .column-uniqueid-${rowId}`).text()
-        console.log(id)
         me.globalState.carts.removeFromCarts(id)
         await me.reloadTable()
     }

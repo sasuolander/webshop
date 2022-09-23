@@ -41,7 +41,6 @@ export default class ProductManagementView extends TableView {
         super.updateView()
         const me = this
         $('.admin-view').on("click", async function (event) {
-            console.log('.admin-view')
             const data = await getProducts()
             me.data = data.data.map((r) => {
                 return [r.id, r.name, r.price, r.additionalInfo]
@@ -65,7 +64,6 @@ export default class ProductManagementView extends TableView {
         const me = this
         super.delete(event, rowId);
         const id = parseInt($(`.${this.tableId} .column-id-${rowId}`).text())
-        console.log(id)
         deleteProduct(id)
         await me.reloadTable()
     }
