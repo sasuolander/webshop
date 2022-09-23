@@ -105,7 +105,6 @@ export default class MainMenuBarView extends View {
                     "  <div class='navbar-brand'>" +
                     "    <a class='navbar-item shop-view' onclick=''>Shop</a>" +
                     "    <a class=\"navbar-item cart-view \" onclick=''>Cart</a>" +
-                    "    <a class=\"navbar-item login-view \" onclick=''>Login</a>" +
                     "    <a class=\"navbar-item order-view\" onclick=''>Order Management</a>" +
                     "    <a class=\"navbar-item logout-view\" onclick=''>Log out</a>" +
                     "  </div>" +
