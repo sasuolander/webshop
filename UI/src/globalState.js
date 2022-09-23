@@ -12,19 +12,24 @@ class Carts {
         return this.carts
     }
     addToCarts(item){
-
-       const oldItem =this.carts.find(function (itemInList) {
-            return itemInList.id === Number(item.id)
-        })
-        if(typeof oldItem === "undefined"){
-            this.carts.push(item)
+        if(typeof item !== "undefined"){
+             const buided = {
+                 internalId:window.crypto.randomUUID(),
+                 productId:item.productId,
+                 userId:item.userId,
+                 price:item.price,
+             }
+            this.carts.push(buided)
         }
         console.log(this.carts)
     }
 
     removeFromCarts(productID) {
+        console.log(this.carts.filter(function (item) {
+            return item.internalId !== productID
+        }))
         this.carts = this.carts.filter(function (item) {
-            return item.id !== productID
+            return item.internalId !== productID
         })
     }
 }

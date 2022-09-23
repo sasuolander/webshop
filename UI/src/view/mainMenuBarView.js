@@ -94,8 +94,8 @@ export default class MainMenuBarView extends View {
             if(this.globalState.user.isNonLogged()){
                 this.viewRoot.append("<nav class='navbar' role='navigation' aria-label='main navigation'>" +
                     "  <div class='navbar-brand'>" +
-
                     "    <a class=\"navbar-item login-view \" onclick=''>Login</a>" +
+                    "    <a class=\"navbar-item useradd-view \" onclick=''>Add User</a>" +
                     "  </div>" +
                     "</nav>");
             }else if (this.globalState.user.isUser() && cookies) {
@@ -113,7 +113,6 @@ export default class MainMenuBarView extends View {
                     "  <div class='navbar-brand'>" +
                     "    <a class='navbar-item shop-view' onclick=''>Shop</a>" +
                     "    <a class=\"navbar-item cart-view \" onclick=''>Cart</a>" +
-                    "    <a class=\"navbar-item login-view \" onclick=''>Login</a>" +
                     "    <a class=\"navbar-item useradd-view \" onclick=''>Add User</a>" +
                     "    <a class=\"navbar-item productadd-view \" onclick=''>Add Product</a>" +
                     "    <a class=\"navbar-item user-view \" onclick=''>User Management</a>" +

@@ -1,5 +1,5 @@
 import TableView from "./tableView";
-import {deleteOrder, getOrders, updateOrder} from "../backend/backend";
+import {deleteOrder, getOrders, getOrdersByUserId, updateOrder} from "../backend/backend";
 
 export default class OrderManagementView extends TableView {
 
@@ -21,20 +21,26 @@ export default class OrderManagementView extends TableView {
 
     visibleInitially = false
 
-    filter(data,me){
-
-       if (me.admin){
-        return data?.data
-       }else {
-           return data?.data.filter(r=>r.userId === this.globalState?.user[0].id)
-       }
+    async filter() {
+        if (this.globalState?.user.isAdmin()) {
+            return getOrders()
+        } else {
+            console.log(this.globalState?.user?.id)
+            const data = getOrdersByUserId(this.globalState?.user?.id)
+            console.log(data)
+            return data
+        }
     }
 
     async insertInitialData() {
         const me = this
-        const data = await getOrders()
-        const dataPrep = me.filter(data,me).map((r) => {return [r.id, r.productId, r.userId]})
-        me.data = dataPrep
+        const data = await me.filter(me)
+        if ( typeof  data.data.length !=="undefined"){
+            me.data = data?.data.map((r) => {
+                return [r.id, r.productId, r.userId]
+            })
+        }
+
     }
 
     async reloadTable() {
@@ -55,13 +61,13 @@ export default class OrderManagementView extends TableView {
         super.updateView()
         const me = this
         $('.order-view').on("click", async function (event) {
-            console.log("orderpad")
-
-            const data = await getOrders()
-            me.data = me.filter(data,me).map((r) => {
-                return [r.id, r.productId, r.userId]
-            })
-            me.reloadInternalTable()
+            const data = await me.filter(me)
+            if ( typeof  data.data.length !=="undefined"){
+                me.data = data?.data.map((r) => {
+                    return [r.id, r.productId, r.userId]
+                })
+            }
+            await me.reloadInternalTable()
         })
     }
 
@@ -77,13 +83,16 @@ export default class OrderManagementView extends TableView {
     }
 
     async update(event, rowId) {
-        const me = this
-        super.update(event, rowId);
-        const id = parseInt($(`.${this.tableId} .column-id-${rowId}`).text())
-        const productid = parseInt($(`.${this.tableId} .column-productid-${rowId}`).text())
-        const userid = parseInt($(`.${this.tableId} .column-userid-${rowId}`).text())
-        updateOrder(id,productid,userid)
-        await me.reloadTable()
+        if (this.globalState?.user.isAdmin()) {
+            const me = this
+            super.update(event, rowId);
+            const id = parseInt($(`.${this.tableId} .column-id-${rowId}`).text())
+            const productid = parseInt($(`.${this.tableId} .column-productid-${rowId}`).text())
+            const userid = parseInt($(`.${this.tableId} .column-userid-${rowId}`).text())
+            updateOrder(id,productid,userid)
+            await me.reloadTable()
+        }
+
     }
 
     async delete(event, rowId) {

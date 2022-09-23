@@ -31,7 +31,7 @@ export default class UserManagementView extends TableView {
     async reloadInternalTable() {
         const me = this
         me.viewRoot.empty()
-        me.headers = ["ProductId","userid","Price"]
+        me.headers = ["Id", "Name", "Role"]
         await me.prepViewInternal()
     }
 

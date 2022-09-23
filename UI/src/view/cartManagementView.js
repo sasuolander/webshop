@@ -32,7 +32,7 @@ export default class CartManagementView extends TableView {
         }
     }
 
-    headers =["ProductId","userid","Price"]
+    headers =["uniqueid","ProductId","userid","Price"]
 
     data
 
@@ -41,7 +41,7 @@ export default class CartManagementView extends TableView {
         const me = this
         const data = me.globalState.carts.getCarts()
         const dataPrep = data.map((r) => {
-            return [r.productId, r.userId, r.price]
+            return [r.internalId,r.productId, r.userId, r.price]
         })
         me.data = dataPrep
     }
@@ -49,13 +49,13 @@ export default class CartManagementView extends TableView {
     async reloadTable() {
         const me = this
         me.viewRoot.empty()
-        me.headers = ["ProductId","userid","Price"]
+        me.headers =["uniqueid","ProductId","userid","Price"]
         me.prepView()
     }
     async reloadInternalTable() {
         const me = this
         me.viewRoot.empty()
-        me.headers = ["ProductId","userid","Price"]
+        me.headers = ["uniqueid","ProductId","userid","Price"]
         me.prepViewInternal()
     }
 
@@ -77,7 +77,7 @@ export default class CartManagementView extends TableView {
 
             const data = me.globalState.carts.getCarts()
             const dataPrep = data.map((r) => {
-                return [r.productId, r.userId, r.price]
+                return [r.internalId,r.productId, r.userId, r.price]
             })
             me.data = dataPrep
             me.reloadInternalTable()
@@ -90,7 +90,7 @@ export default class CartManagementView extends TableView {
     async delete(event, rowId) {
         const me = this
         super.delete(event, rowId);
-        const id = parseInt($(`.${this.tableId} .column-productid-${rowId}`).text())
+        const id = $(`.${this.tableId} .column-uniqueid-${rowId}`).text()
         console.log(id)
         me.globalState.carts.removeFromCarts(id)
         await me.reloadTable()

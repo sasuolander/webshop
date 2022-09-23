@@ -1,5 +1,7 @@
 import View from "./view";
 import $ from "jquery";
+import {getProducts} from "../backend/backend";
+import {v4 as uuidv4} from 'uuid';
 
 export default class ShopView extends View {
     state;
@@ -11,6 +13,8 @@ export default class ShopView extends View {
     divName = "shopView"
     visibleInitially = false
 
+    product = []
+
     async prepView() {
         const  me = this
         if (!me.initBoolean) {
@@ -21,13 +25,14 @@ export default class ShopView extends View {
             await me.updateView();
         }
     }
+
     insertInitialData(){
 
     }
-    updateView() {
-        const classContex = this
+    async updateView() {
+        const me = this
 
-        const car = function (id, name, price, url, props,additionalInfo) {
+        const car = function (id, name, price, url, props, additionalInfo) {
             return "<div class='tile is-paren shopView'><div class='car'>" +
                 "<div class='card-imag'>" +
                 "<figure class='image is-4by'>" +
@@ -52,76 +57,53 @@ export default class ShopView extends View {
                 `<div class=\"modal additional-info-modal-${id}\">` +
                 "  <div class=\"modal-background\"></div>\n" +
                 "  <div class=\"modal-content\">\n" +
-               " <div class=\"message-header\">"+
+                " <div class=\"message-header\">" +
                 `  ${additionalInfo}` +
-               " </div>"
+                " </div>"
                 +
                 "  </div>\n" +
                 `  <button class=\"modal-close is-large\" aria-label=\"close\" data-id = '${id}' ></button>` +
-                "</div>"+
+                "</div>" +
                 " <footer class='card-foote'>" +
-                `<a class ='card-footer-ite add-to-car'  data-id = '${id}'>Add to car, price: ${price}</a>` +"<br>"+
-                `<a class ='card-footer-ite additional-info'  data-id = '${id}'>Additional info</a>` +"<br>"+
+                `<a class ='card-footer-ite add-to-car'  data-id = '${id}'>Add to car, price: ${price}</a>` + "<br>" +
+                `<a class ='card-footer-ite additional-info'  data-id = '${id}'>Additional info</a>` + "<br>" +
                 " </footer>" +
                 "</div></div>"
         }
 
-        const products = [
-            {
-                productId: 1, name: "car1",
-                price: 20,
-                additionalInfo: "this is red",
-                url: "/something",
-                props: {img: "", imgText: "", text: "car is new"}
-            },
-            {
-                productId: 2, name: "car2",
-                price: 20,
-                additionalInfo: "this is out of stock",
-                url: "/something",
-                props: {img: "", imgText: "", text: "car is new"}
-            },
-            {
-                productId: 3, name: "car3",
-                price: 20,
-                additionalInfo: "this is purple",
-                url: "/something",
-                props: {img: "", imgText: "", text: "car is new"}
-            },
-            {
-                productId: 4, name: "car4",
-                price: 20,
-                additionalInfo: "this is blue",
-                url: "/something",
-                props: {img: "", imgText: "", text: "car is new"}
-            },
+        me.product = await getProducts()
 
-        ]
-        products.forEach(function (item) {
-            $(".is-ancesto").append(car(item.productId, item.name, item.price, item.url, item.props,item.additionalInfo))
+        me.product = me.product.data.map((r) => {return{productId:r.id,name:r.name,additionalInfo:r.additionalInfo,price:r.price}})
+        me.product.forEach(item => {
+            item.userId = this.globalState?.user?.id
+            item.url = "/something"
+            item.props = {img: "", imgText: "", text: "car is new"}
         })
-        products.forEach(item =>{
-            item.userId = 10
+
+        me.product.forEach(function (item) {
+            $(".is-ancesto").append(car(item.productId, item.name, item.price, item.url, item.props, item.additionalInfo))
         })
+
+
         $(".tile .is-paren .add-to-car").on("click", function (event) {
                 const id = event.currentTarget.dataset.id
-                const product = products.find(function (item) {
+                const product = me.product.find(function (item) {
                     return item.productId === Number(id)
                 })
-                classContex.globalState.carts.addToCarts(product)
+                me.globalState.carts.addToCarts(product)
             }
         )
         $(".tile .is-paren .additional-info").on("click", function (event) {
                 const id = event.currentTarget.dataset.id
-            console.log(id)
-            console.log("modal",`additional-info-modal-${id}`)
-            $(`.additional-info-modal-${id}`).addClass("is-active")
+                console.log(id)
+                console.log("modal", `additional-info-modal-${id}`)
+                $(`.additional-info-modal-${id}`).addClass("is-active")
             }
         )
         $(".tile .is-paren .modal-close").on("click", function (event) {
                 const id = event.currentTarget.dataset.id
                 console.log(id)
-                console.log("modal",`additional-info-modal-${id}`)
+                console.log("modal", `additional-info-modal-${id}`)
                 $(`.additional-info-modal-${id}`).removeClass("is-active")
             }
         )

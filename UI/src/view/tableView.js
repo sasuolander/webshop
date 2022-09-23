@@ -57,8 +57,25 @@ export default class TableView extends View {
 
 
         me.data?.map(function (element) {
-            element.push("Update")
-            element.push("Delete")
+            if(typeof element !== "undefined" && element !== null){
+                if (element.toString().match(/Update/g) == null || element.toString().match(/Update/g).length===0){
+                    if (element.toString().match(/Update/g) !== null && element.toString().match(/Update/g).length===0){
+                        element.push("Update")
+                    }else {
+                        element.push("Update")
+                    }
+
+                }
+                if (element.toString().match(/Delete/g)== null){
+                    if (element.toString().match(/Delete/g) !== null && element.toString().match(/Delete/g).length===0){
+                        element.push("Delete")
+                    }else {
+                        element.push("Delete")
+                    }
+
+                }
+            }
+
         })
 
         me.headers.forEach(function (value) {

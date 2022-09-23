@@ -1,5 +1,3 @@
-import {Role} from "./role";
-
 export class User {
     id = 0;
     username = "";
