@@ -6,7 +6,7 @@ const bcrypt = require("bcryptjs");
  */
 exports.save = async function (paramInput) {
     const param = paramInput || new User({id: 0, username: "", password: "", role: {}})
-    const encryptedPassword = await bcrypt.hash(param.password, 10);
+    const encryptedPassword = await bcrypt.hash(param.password,  process.env.HASH_SALT);
     if (param !== undefined) {
         return new UserModel({
             username: param.username,
