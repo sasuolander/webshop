@@ -22,10 +22,8 @@ TOKEN_KEY= //token hash jolla token salataan, salt koodi
 
 npm install ja npm run start komennolla lähtee toimimaan kun ajetaan oikeassa kansiossa.
 
-<<<<<<< HEAD
 Ensimmäinen operaatio testuser on mennä
 Add Product sivulle lisäämään tuotteita joita käyttäjä voi ostaa.
-
 
 Käyttäjä polut ostaa
 
