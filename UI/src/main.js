@@ -12,7 +12,7 @@ import OrderManagementViewClass from "./view/orderManagementView";
 import CartManagementViewClass from "./view/cartManagementView";
 import EventBus from "./EventBus";
 
-export const urlBase = "http://127.0.0.1:3000/";
+export const urlBase = process.env.ENDPOINT;
 
 export const state = new GlobalStateClass()
 export const eventbus = new EventBus("buss")
@@ -38,12 +38,10 @@ const {
     CartManagement: new CartManagementViewClass()
 }
 
-
 eventbus.on("reloadPage", function ({detail}) {
     $("#root").empty()
     start()
 })
-
 
 function start() {
     $("#root")
@@ -69,6 +67,3 @@ function start() {
 }
 
 start()
-
-
-

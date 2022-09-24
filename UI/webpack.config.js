@@ -1,10 +1,9 @@
-// Define this constant for easier usage
 const isProd = process.env.NODE_ENV === 'production'
 
 const  path  = require('path')
 
 const webpack = require('webpack')
-
+const Dotenv = require('dotenv-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
@@ -126,6 +125,7 @@ const config = {
             chunks: ['app', 'vendor'],
         }),
         new MiniCssExtractPlugin(),
+        new Dotenv({path:'./.env'})
     ],
 
     performance: {
