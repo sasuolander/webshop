@@ -28,8 +28,12 @@ Add Product sivulle lisäämään tuotteita joita käyttäjä voi ostaa.
 Käyttäjä polut ostaa
 
 Sisään kirjautumisen jälkeen paina Shop linkkiä.
+
 Paina Add to cart.
+
 Siirry Cart sivuun painamalla linkkiä cart
+
 Painna nappia Buying laittaakseen Order menemään.
+
 Katso Order Management sivulla asetettuja Order.
 
