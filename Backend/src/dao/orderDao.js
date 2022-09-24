@@ -41,16 +41,10 @@ exports.update = async function (id, paramInput) {
     }).clone();
 }
 
-exports.findAll = function () {
-    return OrderModel.find({}).then(r => {
-        return r
-    });
-}
-
 /**
  * @param id
  */
-exports.find = function (id) {
+exports.findById = function (id) {
     return OrderModel.find({id: id}).then(r => {
         return r
     });

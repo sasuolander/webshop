@@ -61,3 +61,33 @@ module.exports.validateLogin = async function (req, res) {
     return res.end(JSON.stringify({id: user.id, username: user.username, role: user.role.role, token: user.token}))
 
 }
+
+module.exports.validateRightIsWrong = function(req, res){
+    const user = req.user
+    if(user.role !=="admin"){
+        res.writeHead(401, headersCors).end(JSON.stringify({message: 'Forbidden'}));
+        return true
+    }else {
+        return false
+    }
+}
+
+module.exports.validateRightIsWrongCheckRole = function(req, res){
+    const user = req.user
+    if(user.role !=="admin" && req.body.role.role !=="userNormal"){
+        res.writeHead(401, headersCors).end(JSON.stringify({message: 'Forbidden'}));
+        return true
+    }else {
+        return false
+    }
+}
+
+module.exports.validateRightIsWrongForOrder = function(req, res,order){
+    const user = req.user
+    if(user.user_id !== order.userId){
+        res.writeHead(401, headersCors).end(JSON.stringify({message: 'Forbidden'}));
+        return true
+    }else {
+        return false
+    }
+}

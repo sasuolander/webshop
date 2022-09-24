@@ -62,7 +62,7 @@ module.exports = class Router {
             throw Error("Empty routes table")
 
 
-        if (req.url === "/login" || req.url === "/user" && req.method === "POST") {
+        if (req.url === "/login") {
             const routeFound = Router.routes.find(function (route) {
                 return route.url === req.url && route.method === req.method
             })

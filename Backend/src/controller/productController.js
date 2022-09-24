@@ -2,6 +2,7 @@ const Router = require("../router/router");
 const ProductService = require("../service/productService");
 const {headersCors} = require("../headersCors");
 const ProductClass = require("../model/product");
+const {validateRightIsWrong} = require("../middleware/authentication");
 
 module.exports = function register() {
     console.log("product controller pages loaded")
@@ -16,6 +17,9 @@ Router.get("products", async function getProduct(req, res) {
 })
 
 Router.post("product", async function add(req, res) {
+    if(validateRightIsWrong(req, res)){
+        return
+    }
     const body = req.body;
     const response = await ProductService.createProduct(body)
     res.writeHead(200, headersCors)
@@ -23,6 +27,9 @@ Router.post("product", async function add(req, res) {
 })
 // id in payload
 Router.delete("product", async function deleteProduct(req, res) {
+    if(validateRightIsWrong(req, res)){
+        return
+    }
     const body = req.body;
     const response = await ProductService.deleteProduct(body)
     res.writeHead(200, headersCors)
@@ -30,6 +37,9 @@ Router.delete("product", async function deleteProduct(req, res) {
 })
 // id and updated info in payload
 Router.post("product/update", async function update(req, res) {
+    if(validateRightIsWrong(req, res)){
+        return
+    }
     const body = req.body;
     const response = await ProductService.updateProduct(body.id, body)
     res.writeHead(200, headersCors)

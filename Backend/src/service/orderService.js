@@ -27,6 +27,14 @@ exports.getOrderByUserId = function (id) {
     });
 }
 
+exports.getOrderById = function (id) {
+    return dao.findById(id).then(r => {
+        return r
+    }).catch(function (err) {
+        console.log(err)
+    });
+}
+
 exports.updateOrder = function (id, body) {
     return dao.update(id, body).then(r => {
         return r

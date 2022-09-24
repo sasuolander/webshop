@@ -8,6 +8,3 @@ module.exports = function register() {
 Router.get("login", async function loginUser(req, res) {
     return validateLogin(req, res);
 })
-Router.get("logout", async function loginUser(req, res) {
-    return (await validateLogin(req, res)).res
-})
