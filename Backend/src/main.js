@@ -1,14 +1,14 @@
 'use strict';
 const http = require('http');
-const hostname = '127.0.0.1';
-const port = 3000;
 const Router = require("./router/router")
+const mongoose = require("mongoose")
+require('dotenv').config()
 const userController = require("./controller/userController")
 const loginController = require("./controller/loginController")
 const productController = require("./controller/productController")
 const orderController = require("./controller/orderController")
-const mongoose = require("mongoose")
-require('dotenv').config()
+const hostname = process.env.HOSTNAME;
+const port = process.env.PORT;
 mongoose.connect(process.env.DATABASE).then(r => console.log("connected"))
 const router = new Router();
 

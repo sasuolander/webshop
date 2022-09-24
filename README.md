@@ -20,6 +20,12 @@ DEV=true
 
 TOKEN_KEY= //token hash jolla token salataan, salt koodi
 
+HASH_SALT = // salt level numero
+
+HOSTNAME=localhost
+
+PORT=3000
+
 npm install ja npm run start komennolla lähtee toimimaan kun ajetaan oikeassa kansiossa.
 
 Ensimmäinen operaatio testuser on mennä

@@ -34,13 +34,12 @@ exports.getUserByName = function (username) {
     });
 }
 
-
 exports.getUsers = function () {
     return dao.findAll();
 }
 
 exports.authenticate = async function (username, password) {
-    if (process.env.DEV === true && username === "testuser") {
+    if (process.env.DEV === "true" && username === "testuser") {
         return new UserClass().createUser(0,"testuser" , new Role("admin"))
     } else {
         let user = await dao.findByUsername(username).then(r => {

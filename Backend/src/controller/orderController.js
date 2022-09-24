@@ -42,7 +42,7 @@ Router.post("order", async function add(req, res) {
 Router.delete("order", async function deleteProduct(req, res) {
     const body = req.body;
     const response = await OrderService.getOrderById(body)
-    if(validateRightIsWrongForOrder(req, res,response._doc)){
+    if(validateRightIsWrongForOrder(req, res,response[0]._doc)){
         return
     }
     const r = await OrderService.deleteOrder(body)
@@ -53,7 +53,7 @@ Router.delete("order", async function deleteProduct(req, res) {
 Router.post("order/update", async function update(req, res) {
     const body = req.body;
     const response = await OrderService.getOrderById(body.id)
-    if(validateRightIsWrongForOrder(req, res,response._doc)){
+    if(validateRightIsWrongForOrder(req, res,response[0]._doc)){
         return
     }
     const r = await OrderService.updateOrder(body.id, body)
