@@ -26,6 +26,10 @@ HOSTNAME=localhost
 
 PORT=3000
 
+UI kansiossa luo .env jossa tämä sisältö:
+
+ENDPOINT="http://127.0.0.1:3000/"
+
 npm install ja npm run start komennolla lähtee toimimaan kun ajetaan oikeassa kansiossa.
 
 Ensimmäinen operaatio testuser on mennä
