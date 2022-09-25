@@ -84,9 +84,13 @@ module.exports.validateRightIsWrongCheckRole = function(req, res){
 
 module.exports.validateRightIsWrongForOrder = function(req, res,order){
     const user = req.user
-    if(user.user_id !== order.userId){
-        res.writeHead(401, headersCors).end(JSON.stringify({message: 'Forbidden'}));
-        return true
+    if(user.role !=="admin"){
+        if (user.user_id !== order.userId){
+            res.writeHead(401, headersCors).end(JSON.stringify({message: 'Forbidden'}));
+            return true
+        }else {
+            return false
+        }
     }else {
         return false
     }
