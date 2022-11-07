@@ -4,10 +4,6 @@ nosta docker oleva tietokanta ajamalla docker compose -p webproject1 -f system.y
 Systeemiin on kovakoodattu käyttäjä testuser, joka toimii kun env DEV = true. 
 Voit sillä luoda uuden käyttäjän Add user sivulla. 
 
-Tämä viritelmä ei tietoturvallinen mutta tässä yhteydessä 
-kätevin tapa hoitaa systeemin aloitus. Oikeassa systeemissä pitäisi olla oma asennuohjelma/prosessi
-jossa määritetään ensimmäinen super admin käyttäjä.
-
 Backend kansiossa luo .env jossa tämä sisältö:
 
 DATABASE=mongodb://localhost:27017/test
